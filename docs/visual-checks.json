@@ -1,0 +1,32 @@
+[
+  {
+    "name": "弦月亮側隨幾何翻轉",
+    "samples": [
+      [
+        11,
+        80
+      ],
+      [
+        87,
+        10
+      ]
+    ],
+    "pass": true
+  },
+  {
+    "name": "地球模式切換會暫停",
+    "pass": true
+  },
+  {
+    "name": "context失效可讀提示",
+    "pass": true
+  },
+  {
+    "name": "context還原",
+    "pass": true
+  },
+  {
+    "name": "拖曳自由旋轉有更新畫面",
+    "pass": true
+  }
+]

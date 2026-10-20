@@ -1,0 +1,6 @@
+node_modules/
+dist/
+test-results/
+
+docs/no-scroll-partial.json
+docs/audit-console.txt

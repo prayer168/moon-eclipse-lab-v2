@@ -1,0 +1,74 @@
+{
+  "date": "2026-10-20",
+  "checks": [
+    {
+      "name": "任務1",
+      "pass": true
+    },
+    {
+      "name": "任務2",
+      "pass": true
+    },
+    {
+      "name": "任務3",
+      "pass": true
+    },
+    {
+      "name": "任務4",
+      "pass": true
+    },
+    {
+      "name": "任務5",
+      "pass": true
+    },
+    {
+      "name": "任務6",
+      "pass": true
+    },
+    {
+      "name": "任務7",
+      "pass": true
+    },
+    {
+      "name": "任務8",
+      "pass": true
+    },
+    {
+      "name": "分段文字與重新載入保存",
+      "pass": true
+    },
+    {
+      "name": "json匯出",
+      "pass": true
+    },
+    {
+      "name": "csv匯出",
+      "pass": true
+    },
+    {
+      "name": "取消清除保留紀錄",
+      "pass": true
+    },
+    {
+      "name": "說明可翻頁",
+      "pass": true
+    },
+    {
+      "name": "手機四個分區可切換",
+      "pass": true
+    },
+    {
+      "name": "手機教師解釋可讀",
+      "pass": true
+    },
+    {
+      "name": "儲存拒絕可作答",
+      "pass": true
+    },
+    {
+      "name": "無WebGL替代",
+      "pass": true
+    }
+  ],
+  "errors": []
+}

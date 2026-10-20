@@ -1,0 +1,208 @@
+{
+  "date": "2026-10-19",
+  "browser": "141.0.7390.37",
+  "errors": [],
+  "viewports": [
+    {
+      "width": 1440,
+      "height": 900,
+      "scrollWidth": 1440,
+      "canvas": [
+        {
+          "width": 817,
+          "height": 564,
+          "rect": {
+            "w": 1022,
+            "h": 705
+          }
+        },
+        {
+          "width": 338,
+          "height": 250,
+          "rect": {
+            "w": 338,
+            "h": 250
+          }
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "height": 768,
+      "scrollWidth": 1024,
+      "canvas": [
+        {
+          "width": 536,
+          "height": 564,
+          "rect": {
+            "w": 670,
+            "h": 705
+          }
+        },
+        {
+          "width": 298,
+          "height": 250,
+          "rect": {
+            "w": 298,
+            "h": 250
+          }
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "scrollWidth": 390,
+      "canvas": [
+        {
+          "width": 291,
+          "height": 240,
+          "rect": {
+            "w": 364,
+            "h": 300
+          }
+        },
+        {
+          "width": 364,
+          "height": 260,
+          "rect": {
+            "w": 364,
+            "h": 260
+          }
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "name": "案例total",
+      "expected": "日全食",
+      "actual": "日全食",
+      "pass": true
+    },
+    {
+      "name": "案例annular",
+      "expected": "日環食",
+      "actual": "日環食",
+      "pass": true
+    },
+    {
+      "name": "案例partial",
+      "expected": "日偏食",
+      "actual": "日偏食",
+      "pass": true
+    },
+    {
+      "name": "案例penumbral",
+      "expected": "半影月食",
+      "actual": "半影月食",
+      "pass": true
+    },
+    {
+      "name": "案例lunarPartial",
+      "expected": "月偏食",
+      "actual": "月偏食",
+      "pass": true
+    },
+    {
+      "name": "案例lunar",
+      "expected": "月全食",
+      "actual": "月全食",
+      "pass": true
+    },
+    {
+      "name": "鏡頭不修改模型",
+      "pass": true
+    },
+    {
+      "name": "記錄作答",
+      "pass": true
+    },
+    {
+      "name": "重新整理保留作答",
+      "pass": true
+    },
+    {
+      "name": "取消清除保留資料",
+      "pass": true
+    },
+    {
+      "name": "json匯出",
+      "pass": true
+    },
+    {
+      "name": "csv匯出",
+      "pass": true
+    },
+    {
+      "name": "一年比較",
+      "actual": "第14.765天起365.256天；交點0°；距離384400km；0.02天取樣。0°：日食12段、月食13段；5.145°：日食2段、月食3段；10°：日食1段、月食1段（含觀察起點正在進行的事件）",
+      "pass": true
+    },
+    {
+      "name": "精確還原傾角",
+      "pass": true
+    },
+    {
+      "name": "觀測點改變可見性",
+      "actual": "當地幾何：日全食｜當地不可見（地平線下）。太陽高度 -90.0°；月球高度 -90.0°。地點 0.0°, 180.0°",
+      "pass": true
+    },
+    {
+      "name": "下一食象搜尋",
+      "actual": "已定位下一段食象起始附近，可微調時間觀察。",
+      "pass": true
+    },
+    {
+      "name": "高速播放攔截食象",
+      "pass": true,
+      "actual": "已在食象開始附近自動暫停，避免快速播放略過事件。"
+    },
+    {
+      "name": "拒絕儲存仍可作答",
+      "pass": true
+    },
+    {
+      "name": "無WebGL替代",
+      "pass": true
+    }
+  ],
+  "performance": [
+    {
+      "viewport": [
+        1440,
+        900
+      ],
+      "rafFPS": 60.383434811140724,
+      "hardwareConcurrency": 12,
+      "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.7390.37 Safari/537.36",
+      "webgl": true,
+      "renderScale": 0.8,
+      "drawCalls": 13
+    },
+    {
+      "viewport": [
+        1024,
+        768
+      ],
+      "rafFPS": 60.40167111281018,
+      "hardwareConcurrency": 12,
+      "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.7390.37 Safari/537.36",
+      "webgl": true,
+      "renderScale": 0.8,
+      "drawCalls": 13
+    },
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "rafFPS": 60.11120573024265,
+      "hardwareConcurrency": 12,
+      "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.7390.37 Safari/537.36",
+      "webgl": true,
+      "renderScale": 0.8,
+      "drawCalls": 13
+    }
+  ]
+}

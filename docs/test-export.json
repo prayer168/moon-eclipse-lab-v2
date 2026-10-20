@@ -1,0 +1,138 @@
+{
+  "version": 2,
+  "model": "circular-fixed-node",
+  "p": {
+    "t": 14.76531807395698,
+    "i": 0,
+    "node": 0,
+    "distance": 384400,
+    "lat": 5.736490366704636,
+    "lon": -96.67069676393865
+  },
+  "answers": [
+    {
+      "prediction": "我預測月全食發生在滿月附近。",
+      "explanation": "主張：滿月附近可能月食。證據：模型顯示月全食。推理：地球擋住直射陽光。",
+      "choice": 0,
+      "rubric": [
+        false,
+        false,
+        false
+      ],
+      "evidence": [
+        {
+          "params": {
+            "t": 14.76531807395698,
+            "i": 0,
+            "node": 0,
+            "distance": 384400,
+            "lat": 5.736490366704636,
+            "lon": -96.67069676393865
+          },
+          "speed": 1,
+          "phase": "滿月",
+          "k": 1,
+          "solar": "無日食",
+          "global": "無日食",
+          "lunar": "月全食",
+          "sunAlt": -90,
+          "moonAlt": 90,
+          "visible": "太陽在地平線下"
+        }
+      ],
+      "hints": 0,
+      "feedback": "概念判斷：正確。操作證據：尚未達成，請依任務補充紀錄。 文字解釋已保存，請依三項規準自評，交由老師評閱。"
+    },
+    {
+      "prediction": "",
+      "explanation": "",
+      "choice": -1,
+      "rubric": [
+        false,
+        false,
+        false
+      ],
+      "evidence": [],
+      "hints": 0,
+      "feedback": ""
+    },
+    {
+      "prediction": "",
+      "explanation": "",
+      "choice": -1,
+      "rubric": [
+        false,
+        false,
+        false
+      ],
+      "evidence": [],
+      "hints": 0,
+      "feedback": ""
+    },
+    {
+      "prediction": "",
+      "explanation": "",
+      "choice": -1,
+      "rubric": [
+        false,
+        false,
+        false
+      ],
+      "evidence": [],
+      "hints": 0,
+      "feedback": ""
+    },
+    {
+      "prediction": "",
+      "explanation": "",
+      "choice": -1,
+      "rubric": [
+        false,
+        false,
+        false
+      ],
+      "evidence": [],
+      "hints": 0,
+      "feedback": ""
+    },
+    {
+      "prediction": "",
+      "explanation": "",
+      "choice": -1,
+      "rubric": [
+        false,
+        false,
+        false
+      ],
+      "evidence": [],
+      "hints": 0,
+      "feedback": ""
+    },
+    {
+      "prediction": "",
+      "explanation": "",
+      "choice": -1,
+      "rubric": [
+        false,
+        false,
+        false
+      ],
+      "evidence": [],
+      "hints": 0,
+      "feedback": ""
+    },
+    {
+      "prediction": "",
+      "explanation": "",
+      "choice": -1,
+      "rubric": [
+        false,
+        false,
+        false
+      ],
+      "evidence": [],
+      "hints": 0,
+      "feedback": ""
+    }
+  ]
+}

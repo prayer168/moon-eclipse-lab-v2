@@ -1,0 +1,41 @@
+[
+  {
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "playing": true,
+    "frames": 180,
+    "seconds": 4.62829999999702,
+    "fps": 38.891169543918046,
+    "renderScale": 0.5,
+    "drawCalls": 13,
+    "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+  },
+  {
+    "viewport": {
+      "width": 1024,
+      "height": 768
+    },
+    "playing": true,
+    "frames": 180,
+    "seconds": 4.37240000000596,
+    "fps": 41.16732229433598,
+    "renderScale": 0.5,
+    "drawCalls": 13,
+    "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+  },
+  {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "playing": true,
+    "frames": 180,
+    "seconds": 3.5042000000029803,
+    "fps": 51.36693111119426,
+    "renderScale": 0.5,
+    "drawCalls": 13,
+    "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+  }
+]
