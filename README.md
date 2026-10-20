@@ -112,3 +112,7 @@ node tests/date-layout.mjs
 node tests/date-keyboard.mjs
 ```
 Playwright報告見 `docs/real-date-report.md`、原始結果 `docs/real-date-playwright.json`，科學限制與來源亦列於報告。第三方授權／資料來源見 `public/THIRD_PARTY_NOTICES.txt`。
+
+### 真實月面操作與檢查
+場景工具列「月球近看」可繞月觀察；設定→月面可全亮閱讀、切換地貌名稱及放大地球月面窗，觀測窗亦支援雙擊／Enter。全螢幕保留近看及實際月相HUD。
+`node tests/moon-browser.mjs` 執行月面專項驗收；`node tests/moon-performance.mjs` 單獨執行效能量測。兩者需先啟動Vite。資料來源、鏡像與雜湊見 docs/moon-map-sources.json；可用具Pillow、NumPy的Python執行 tools/build-moon-map.py 重建貼圖。完整驗收見 docs/moon-surface-report.md。

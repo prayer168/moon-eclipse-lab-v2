@@ -37,3 +37,10 @@ https://www.naturalearthdata.com/about/terms-of-use/
 Derived from ne_50m_land, ne_50m_lakes, ne_50m_glaciated_areas.
 Source repository commit ca96624a56bd078437bca8184e78163e5039ad19.
 Colors are cartographic styling, not satellite imagery or live surface conditions.
+
+Lunar surface: NASA's Scientific Visualization Studio / NASA GSFC / LRO LROC (Arizona State University) and LOLA.
+CGI Moon Kit (2019 color map; LOLA elevation data): https://svs.gsfc.nasa.gov/4720/
+Visualization: Ernie Wright; scientist: Noah Petro.
+Derived albedo JPEG and body-fixed normal PNG; spherical silhouette, no exaggerated relief.
+Original TIFF download mirror pinned to Project-10/OpenRT commit ef6205f8ca51fd123da4a2f0b7b7a6ad27809b80.
+Source URLs and SHA256 are recorded in docs/moon-map-sources.json.

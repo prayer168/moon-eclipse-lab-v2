@@ -1,0 +1,57 @@
+{
+  "browser": "141.0.7390.37",
+  "conditions": "Windows headless Chromium, emulated viewports; not physical devices",
+  "rows": [
+    {
+      "width": 1440,
+      "height": 900,
+      "closeView": true,
+      "taiwanVisible": true,
+      "backLabelsHidden": true,
+      "readingDoesNotChangeTime": true,
+      "fullscreenNearView": true,
+      "noScroll": true
+    },
+    {
+      "width": 1024,
+      "height": 768,
+      "closeView": true,
+      "taiwanVisible": true,
+      "backLabelsHidden": true,
+      "readingDoesNotChangeTime": true,
+      "fullscreenNearView": true,
+      "noScroll": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "closeView": true,
+      "taiwanVisible": true,
+      "backLabelsHidden": true,
+      "readingDoesNotChangeTime": true,
+      "fullscreenNearView": true,
+      "noScroll": true
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "closeView": true,
+      "taiwanVisible": true,
+      "backLabelsHidden": true,
+      "readingDoesNotChangeTime": true,
+      "fullscreenNearView": true,
+      "noScroll": true
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "closeView": true,
+      "taiwanVisible": true,
+      "backLabelsHidden": true,
+      "readingDoesNotChangeTime": true,
+      "fullscreenNearView": true,
+      "noScroll": true
+    }
+  ],
+  "errors": []
+}

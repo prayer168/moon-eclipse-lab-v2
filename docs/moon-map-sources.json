@@ -1,0 +1,35 @@
+{
+  "provider": "NASA Scientific Visualization Studio / LRO LROC and LOLA",
+  "sourcePage": "https://svs.gsfc.nasa.gov/4720/",
+  "colorVersion": "2019 RGB map, 4K",
+  "dem": "LOLA 16 pixels/degree uint16 half-meters, offset +10000m",
+  "size": [
+    4096,
+    2048
+  ],
+  "projection": "Equirectangular, 0 longitude centered; east positive; north at top",
+  "sources": [
+    {
+      "url": "https://svs.gsfc.nasa.gov/vis/a000000/a004700/a004720/lroc_color_poles_4k.tif",
+      "downloadURL": "https://raw.githubusercontent.com/Project-10/OpenRT/ef6205f8ca51fd123da4a2f0b7b7a6ad27809b80/data/lroc_color_poles_4k.tif",
+      "sha256": "918649a7f8ed2f1329b2cd95bb0d25483befdcb60ae1a66db681a637cc21344f"
+    },
+    {
+      "url": "https://svs.gsfc.nasa.gov/vis/a000000/a004700/a004720/ldem_16_uint.tif",
+      "downloadURL": "https://raw.githubusercontent.com/Project-10/OpenRT/ef6205f8ca51fd123da4a2f0b7b7a6ad27809b80/data/ldem_16_uint.tif",
+      "sha256": "45a2b32d56e81ed30db07fead8abc842b249b6511219d9ca2c53f81bc2dc5d62"
+    }
+  ],
+  "outputs": [
+    {
+      "file": "moon-albedo.jpg",
+      "sha256": "d426d5e12289242fb0eb4efdf41191bb33f65e85a9715fe756eb38a9fc528d17",
+      "bytes": 2966546
+    },
+    {
+      "file": "moon-normal.png",
+      "sha256": "fd7aa550b4e633692e2dfc7226e83da9b044e0f6ececa8e0f501f3341a89cabe",
+      "bytes": 10622008
+    }
+  ]
+}
