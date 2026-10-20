@@ -31,3 +31,9 @@ HKO Gregorian-Lunar Calendar factual data (1901-2100), compiled 2026-10-20.
 Source: Hong Kong Observatory
 https://www.hko.gov.hk/tc/gts/time/conversion1_text.htm
 https://www.hko.gov.hk/tc/gts/time/conversion.htm
+
+Earth map: Made with Natural Earth (public domain).
+https://www.naturalearthdata.com/about/terms-of-use/
+Derived from ne_50m_land, ne_50m_lakes, ne_50m_glaciated_areas.
+Source repository commit ca96624a56bd078437bca8184e78163e5039ad19.
+Colors are cartographic styling, not satellite imagery or live surface conditions.

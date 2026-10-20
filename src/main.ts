@@ -163,6 +163,9 @@ $('#revolution').onclick=()=>{if(p.model==='ephemeris')clockSource='playback';se
 for(const [id,fraction] of [['perihelion',0],['aphelion',.5]] as const)$('#'+id).onclick=()=>{stop();p.t=p.model==='ephemeris'?realOrbitPath(p.t).times[fraction===0?0:1]:Math.floor(p.t/C.year)*C.year+fraction*C.year;setReferenceFrame('sun');save();status(p.model==='ephemeris'?'已定位本年度星曆近日／遠日點。':'第0天是近日點教學紀元，非實際日期。');};
 $('#quarterYear').onclick=()=>{stop();p.t+=C.year/4;setReferenceFrame('sun');save();};
 $<HTMLInputElement>('#pauseAtEvent').onchange=()=>{nextIntercept=playing&&$<HTMLInputElement>('#pauseAtEvent').checked?nextEvent(p):null;};
+$('#earthClose').onclick=()=>{stop();setReferenceFrame('earth');scene?.focusEarth();setPane('scene');update();status('地球近看：從亞洲與臺灣開始，拖曳轉動可看七大洲與五大洋。');};
+$('#mapReading').onchange=()=>{if(scene)scene.mapReading=$<HTMLInputElement>('#mapReading').checked;const note=$('#mapReadingNotice');if(note)note.textContent=scene?.mapReading?'全亮地圖・非晝夜照明':'';update();};
+$('#space').addEventListener('geographyselect',event=>{const q=(event as CustomEvent).detail;status(`${q.name}｜緯度 ${q.lat}°，經度 ${q.lon}°；洲洋名稱為地理分類，標示點不代表完整範圍。`);if(presentation)noticePresentation(`${q.name}｜緯度 ${q.lat}°，經度 ${q.lon}°`);});
 $('#axisClose').onclick=()=>{stop();setReferenceFrame('earth');scene?.view('axis');setPane('scene');status('自轉軸近看：青色為地球自轉軸，灰虛線為黃道面法線，夾角23.44°。');};
 $('#scenePause').onclick=()=>{stop();update();};
 $('#top').onclick=()=>scene?.view('top');$('#side').onclick=()=>scene?.view('side');$('#cameraReset').onclick=()=>scene?.view('reset');$('#zoomIn').onclick=()=>scene?.zoom(.8);$('#zoomOut').onclick=()=>scene?.zoom(1.25);
@@ -175,13 +178,13 @@ let restorePresentation:(()=>void)|null=null;
 async function enterPresentation(native=true){
  if(presentation)return;
  if(!scene){status('此裝置無法使用3D全螢幕展示。');return;}
- const previous={mode,pane:activePane,frame:scene.frame,position:scene.camera.position.clone(),target:scene.controls.target.clone()};
- restorePresentation=()=>{setMode(previous.mode);setPane(previous.pane);scene?.setFrame(previous.frame);$<HTMLSelectElement>('#referenceFrame').value=previous.frame;$('#frameLabel').textContent=previous.frame==='sun'?'太陽置中・公轉全景':'地球置中・月相近看';requestAnimationFrame(()=>{scene?.resize();scene?.camera.position.copy(previous.position);scene?.controls.target.copy(previous.target);scene?.controls.update();update();});};
- setMode('phase');setPane('scene');setReferenceFrame('sun');presentation=true;nextIntercept=null;document.body.classList.add('presentation');scene.setPresentation(true);
+ const previous={mode,pane:activePane,frame:scene.frame,near:scene.nearEarth,up:scene.camera.up.clone(),position:scene.camera.position.clone(),target:scene.controls.target.clone()};
+ restorePresentation=()=>{setMode(previous.mode);setPane(previous.pane);scene?.setFrame(previous.frame);$<HTMLSelectElement>('#referenceFrame').value=previous.frame;$('#frameLabel').textContent=previous.frame==='sun'?'太陽置中・公轉全景':'地球置中・月相近看';requestAnimationFrame(()=>{scene?.resize();scene?.camera.position.copy(previous.position);scene?.controls.target.copy(previous.target);scene?.camera.up.copy(previous.up);if(scene){scene.nearEarth=previous.near;scene.earthPrevious.copy(scene.earth.position);if(previous.near)scene.controls.minDistance=scene.layout.earthRadius*1.3;}scene?.controls.update();update();});};
+ setMode('phase');setPane('scene');setReferenceFrame(previous.near?'earth':'sun');presentation=true;nextIntercept=null;document.body.classList.add('presentation');scene.setPresentation(true);
  update();noticePresentation('拖曳旋轉・雙指縮放｜雙擊播放／暫停｜1慢速・2快速｜Esc或長按返回');
  const host=$('#space');host.tabIndex=0;host.focus({preventScroll:true});
  if(native&&host.requestFullscreen){nativeRequested=true;try{await host.requestFullscreen();}catch{nativeRequested=false;}}
- requestAnimationFrame(()=>scene?.resize());
+ requestAnimationFrame(()=>{scene?.resize();if(previous.near)scene?.focusEarth();});
 }
 function finishPresentation(){
  if(!presentation)return;holdExit.cancel();clearTimeout(noticeTimer);presentation=false;nativeRequested=false;nextIntercept=playing&&$<HTMLInputElement>('#pauseAtEvent').checked?nextEvent(p):null;document.body.classList.remove('presentation');scene?.setPresentation(false);restorePresentation?.();restorePresentation=null;save();$('#fullscreen').focus({preventScroll:true});
@@ -219,5 +222,5 @@ function frame(now:number){const dt=Math.min((now-last)/1000,.1);frameDurations.
  if(playing&&now-paint>33){update();paint=now;}scene?.solar.advance(dt,playing||clockSource==='now');scene?.render();requestAnimationFrame(frame);
 }
 // Read-only diagnostics used by reproducible browser acceptance tests.
-Object.assign(window,{labDiagnostics:()=>({p:{...p},clockSource,isoTime:p.model==='ephemeris'?dateFromDays(p.t).toISOString():null,snapshot:snapshot(p),answers:JSON.parse(JSON.stringify(answers)),playing,storageOK,webgl:!!scene,ui:{mode,pane:activePane,step:uiStep,presentation},display:scene?{frame:scene.frame,layout:scene.layout,axisVisible:scene.axisGroup.visible,orbitVisible:scene.orbit.visible,earthOrbitVisible:scene.earthOrbit.visible,markerVisible:scene.marker.visible,starsVisible:scene.stars.visible,eclipticVisible:scene.ecliptic.visible,solarTime:scene.solar.time,solarParticlesVisible:scene.solar.particles.visible,shadowWireframes:0}:null,renderScale:scene?.quality,drawCalls:scene?.renderer.info.render.calls,frames:frameDurations.length,fps:frameDurations.length?1000/(frameDurations.reduce((a,b)=>a+b,0)/frameDurations.length):0})});
+Object.assign(window,{labDiagnostics:()=>({p:{...p},clockSource,isoTime:p.model==='ephemeris'?dateFromDays(p.t).toISOString():null,snapshot:snapshot(p),answers:JSON.parse(JSON.stringify(answers)),playing,storageOK,webgl:!!scene,ui:{mode,pane:activePane,step:uiStep,presentation},display:scene?{frame:scene.frame,layout:scene.layout,axisVisible:scene.axisGroup.visible,orbitVisible:scene.orbit.visible,earthOrbitVisible:scene.earthOrbit.visible,markerVisible:scene.marker.visible,starsVisible:scene.stars.visible,mapLoaded:scene.mapLoaded,mapReading:scene.mapReading,earthQuaternion:scene.earth.quaternion.toArray(),geography:scene.geoLabels.filter(x=>!x.hidden).map(x=>x.textContent),eclipticVisible:scene.ecliptic.visible,solarTime:scene.solar.time,solarParticlesVisible:scene.solar.particles.visible,shadowWireframes:0}:null,renderScale:scene?.quality,drawCalls:scene?.renderer.info.render.calls,frames:frameDurations.length,fps:frameDurations.length?1000/(frameDurations.reduce((a,b)=>a+b,0)/frameDurations.length):0})});
 renderTask();update();if(!storageOK)status('本機儲存無法使用，請匯出作答。');else if(p.model==='ephemeris')status('真實日期：星曆位置及HKO農曆；幾何食象為近似，非專業預報。');requestAnimationFrame(frame);

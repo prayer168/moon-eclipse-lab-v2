@@ -1,3 +1,4 @@
+import {geography,geographicNormal} from './geography';
 import {SolarEffects} from './solar-effects';
 import {realRotation,realOrbitPath,dateFromDays} from './ephemeris';
 import * as T from 'three';
@@ -7,7 +8,7 @@ import {moonOrientation,moonOrbitNormal,geocentricMoonView} from './orientation'
 import {displayLayout,type ReferenceFrame} from './display-layout';
 const vec=(v:V)=>new T.Vector3(...v);
 export class SpaceScene {
- solar!:SolarEffects; realMode=false;pathKey='';apsisPoints:V[]=[[-105*(1-C.eccentricity),0,0],[105*(1+C.eccentricity),0,0]];moonTiltAngle=1.54;presentation=false; ecliptic!:T.Mesh; moonPlane!:T.Mesh; moonAxis=new T.Group(); apsides=new T.Group(); inclination=5.145; stars:T.Points; renderer:T.WebGLRenderer; scene=new T.Scene(); camera=new T.PerspectiveCamera(42,1,.1,3000); controls:OrbitControls;
+ mapLoaded=false;mapReading=false;nearEarth=false;geoLabels:HTMLButtonElement[]=[];earthPrevious=new T.Vector3(); solar!:SolarEffects; realMode=false;pathKey='';apsisPoints:V[]=[[-105*(1-C.eccentricity),0,0],[105*(1+C.eccentricity),0,0]];moonTiltAngle=1.54;presentation=false; ecliptic!:T.Mesh; moonPlane!:T.Mesh; moonAxis=new T.Group(); apsides=new T.Group(); inclination=5.145; stars:T.Points; renderer:T.WebGLRenderer; scene=new T.Scene(); camera=new T.PerspectiveCamera(42,1,.1,3000); controls:OrbitControls;
  earth:T.Mesh; moon:T.Mesh; sun:T.Mesh; orbit:T.Line; node:T.Line; earthOrbit:T.Line; axisGroup=new T.Group(); marker:T.Mesh; frame:ReferenceFrame='sun'; layout=displayLayout({t:0,i:5.145,node:0,distance:384400,lat:23.5,lon:121},'sun'); tags:Record<string,HTMLSpanElement>={}; enabled=true; quality=.8; lastRender=performance.now(); slowFrames=0; renderedFrames=0; light=new T.DirectionalLight(0xffe4ad,3);
  constructor(private host:HTMLElement){
  this.renderer=new T.WebGLRenderer({antialias:true});this.renderer.setPixelRatio(Math.min(devicePixelRatio,1.5)*this.quality);this.renderer.setClearColor('#080f22');host.append(this.renderer.domElement);
@@ -17,12 +18,16 @@ export class SpaceScene {
  this.camera.up.set(0,0,1);this.camera.position.set(190,-220,190);this.controls=new OrbitControls(this.camera,this.renderer.domElement);this.controls.target.set(0,0,0);this.controls.minDistance=30;this.controls.maxDistance=500;
  this.scene.add(new T.AmbientLight(0x8ba9db,.15));this.light.position.set(180,0,0);this.scene.add(this.light);
  this.earth=new T.Mesh(new T.SphereGeometry(8,48,32),new T.ShaderMaterial({
- uniforms:{sunRelative:{value:new T.Vector3(C.au,0,0)},moonRelative:{value:new T.Vector3(384400,0,0)}},
+ uniforms:{earthMap:{value:new T.Texture()},mapReading:{value:0},sunRelative:{value:new T.Vector3(C.au,0,0)},moonRelative:{value:new T.Vector3(384400,0,0)}},
  vertexShader:`varying vec3 worldNormal;varying vec3 bodyNormal;void main(){bodyNormal=normal;worldNormal=normalize(mat3(modelMatrix)*normal);gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`,
- fragmentShader:`varying vec3 worldNormal;varying vec3 bodyNormal;uniform vec3 sunRelative;uniform vec3 moonRelative;
+ fragmentShader:`varying vec3 worldNormal;varying vec3 bodyNormal;uniform sampler2D earthMap;uniform float mapReading;uniform vec3 sunRelative;uniform vec3 moonRelative;
  float overlap(float a,float b,float d){if(d>=a+b)return 0.0;if(d<=abs(a-b))return min(1.0,b*b/(a*a));float x=acos(clamp((d*d+a*a-b*b)/(2.0*d*a),-1.0,1.0));float y=acos(clamp((d*d+b*b-a*a)/(2.0*d*b),-1.0,1.0));float z=sqrt(max(0.0,(-d+a+b)*(d+a-b)*(d-a+b)*(d+a+b)));return clamp((a*a*x+b*b*y-0.5*z)/(3.14159265*a*a),0.0,1.0);}
- void main(){vec3 n=normalize(worldNormal);vec3 s=sunRelative-n*6371.0;vec3 m=moonRelative-n*6371.0;float light=max(0.0,dot(n,normalize(s)));float cover=0.0;if(dot(s,m)>0.0){float a=asin(696000.0/length(s)),b=asin(1737.0/length(m)),d=acos(clamp(dot(normalize(s),normalize(m)),-1.0,1.0));cover=overlap(a,b,d);}float continent=sin(bodyNormal.x*13.0)+cos(bodyNormal.y*11.0)+sin(bodyNormal.z*17.0);vec3 base=continent>0.85?vec3(0.35,0.60,0.36):vec3(0.07,0.39,0.58);if(abs(bodyNormal.z)>0.92)base=vec3(0.72,0.83,0.88);gl_FragColor=vec4(base*(0.12+0.88*light*(1.0-cover)),1.0);}`
+ void main(){vec3 n=normalize(worldNormal);vec3 s=sunRelative-n*6371.0;vec3 m=moonRelative-n*6371.0;float light=max(0.0,dot(n,normalize(s)));float cover=0.0;if(dot(s,m)>0.0){float a=asin(696000.0/length(s)),b=asin(1737.0/length(m)),d=acos(clamp(dot(normalize(s),normalize(m)),-1.0,1.0));cover=overlap(a,b,d);}vec3 bn=normalize(bodyNormal);vec2 uv=vec2(atan(bn.y,bn.x)/6.28318530718+0.5,asin(clamp(bn.z,-1.0,1.0))/3.14159265359+0.5);vec3 base=texture2D(earthMap,uv).rgb;gl_FragColor=vec4(base*mix(0.12+0.88*light*(1.0-cover),1.0,mapReading),1.0);}`
  }));this.scene.add(this.earth);
+ new T.TextureLoader().load(new URL('maps/natural-earth.png',document.baseURI).href,texture=>{texture.wrapS=T.RepeatWrapping;texture.anisotropy=Math.min(8,this.renderer.capabilities.getMaxAnisotropy());(this.earth.material as T.ShaderMaterial).uniforms.earthMap.value=texture;this.mapLoaded=true;},undefined,()=>{this.host.dataset.error='地圖載入失敗，請重新整理；觀測數值仍可使用。';});
+ geography.forEach((place,j)=>{const label=document.createElement('button');label.className='geo-label '+place.kind;label.textContent=place.name;label.hidden=true;label.setAttribute('aria-label',place.name+'，緯度'+place.lat+'，經度'+place.lon);label.onclick=()=>{this.host.dispatchEvent(new CustomEvent('geographyselect',{detail:place}));};for(const event of ['pointerdown','dblclick'])label.addEventListener(event,e=>e.stopPropagation());host.append(label);this.geoLabels[j]=label;});
+ const taiwan=new T.Mesh(new T.SphereGeometry(.09,10,8),new T.MeshBasicMaterial({color:0xffdf83}));taiwan.position.copy(vec(geographicNormal(23.7,121)).multiplyScalar(8.06));this.earth.add(taiwan);
+
  this.moon=new T.Mesh(new T.SphereGeometry(2.5,48,32),new T.ShaderMaterial({
  uniforms:{sunDirection:{value:new T.Vector3(1,0,0)},relative:{value:new T.Vector3()},shadowAxis:{value:new T.Vector3(-1,0,0)},sunDistance:{value:C.au}},
  vertexShader:`varying vec3 worldNormal;varying vec3 bodyNormal;void main(){bodyNormal=normal;worldNormal=normalize(mat3(modelMatrix)*normal);gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`,
@@ -51,15 +56,30 @@ export class SpaceScene {
  render(){if(this.enabled){
  const now=performance.now();this.slowFrames+=now-this.lastRender>20?1:0;this.lastRender=now;this.renderedFrames++;
  if(this.renderedFrames>=120){if(this.slowFrames>40&&this.quality>.5){this.quality=Math.max(.5,this.quality*.75);this.renderer.setPixelRatio(Math.min(devicePixelRatio,1.5)*this.quality);this.resize();}this.renderedFrames=0;this.slowFrames=0;}
- this.controls.update();
+ if(this.nearEarth){const delta=this.earth.position.clone().sub(this.earthPrevious);this.camera.position.add(delta);this.controls.target.add(delta);this.earthPrevious.copy(this.earth.position);}this.controls.update();
+ this.updateGeography();
  for(const [body,radius] of [[this.earth,10*this.earth.scale.x],[this.moon,4*this.moon.scale.x],[this.sun,18*this.sun.scale.x]] as [T.Mesh,number][]){const offset=this.camera.position.clone().sub(body.position);if(offset.length()<radius){if(offset.lengthSq()<1e-8)offset.set(0,0,1);this.camera.position.copy(body.position).add(offset.normalize().multiplyScalar(radius));this.camera.lookAt(this.controls.target);}}
  this.updateTags();this.renderer.render(this.scene,this.camera);
  }}
- fit(){const half=Math.atan(Math.tan(this.camera.fov*rad/2)*Math.min(1,this.camera.aspect));const distance=(this.frame==='sun'?137:170)/Math.sin(half);this.controls.maxDistance=Math.max(500,distance*1.6);this.camera.position.sub(this.controls.target).normalize().multiplyScalar(distance).add(this.controls.target);}
+ fit(){if(this.nearEarth){const distance=this.layout.earthRadius*1.5/(Math.tan(this.camera.fov*rad/2)*Math.min(1,this.camera.aspect));this.camera.position.sub(this.controls.target).normalize().multiplyScalar(distance).add(this.controls.target);return;}const half=Math.atan(Math.tan(this.camera.fov*rad/2)*Math.min(1,this.camera.aspect));const distance=(this.frame==='sun'?137:170)/Math.sin(half);this.controls.maxDistance=Math.max(500,distance*1.6);this.camera.position.sub(this.controls.target).normalize().multiplyScalar(distance).add(this.controls.target);}
  resize(){const w=this.host.clientWidth,h=this.host.clientHeight;if(!w||!h)return;this.renderer.setSize(w,h);const changed=Math.abs(this.camera.aspect-w/h)>.01;this.camera.aspect=w/h;this.camera.updateProjectionMatrix();if(changed)this.fit();}
- view(kind:string){if(kind==='axis'){this.camera.position.set(45,-70,45);this.controls.target.set(0,0,0);this.controls.update();return;}this.camera.position.set(...(kind==='top'?[45,0,300]:kind==='side'?[45,-300,8]:[190,-220,190]) as [number,number,number]);this.controls.target.set(0,0,0);this.fit();this.controls.update();}
+ view(kind:string){this.nearEarth=false;this.camera.up.set(0,0,1);if(kind==='axis'){this.camera.position.set(45,-70,45);this.controls.target.set(0,0,0);this.controls.update();return;}this.camera.position.set(...(kind==='top'?[45,0,300]:kind==='side'?[45,-300,8]:[190,-220,190]) as [number,number,number]);this.controls.target.set(0,0,0);this.fit();this.controls.update();}
  zoom(f:number){this.camera.position.sub(this.controls.target).multiplyScalar(f).add(this.controls.target);this.controls.update();}
- setFrame(frame:ReferenceFrame){this.frame=frame;this.view('reset');}
+ setFrame(frame:ReferenceFrame){this.nearEarth=false;this.controls.minDistance=30;this.frame=frame;this.view('reset');}
+ focusEarth(){
+ this.nearEarth=true;this.earthPrevious.copy(this.earth.position);const direction=vec(geographicNormal(23.7,121)).applyQuaternion(this.earth.quaternion),radius=this.layout.earthRadius;this.controls.minDistance=radius*1.3;this.controls.target.copy(this.earth.position);this.camera.up.copy(vec(this.layout.axis));this.camera.position.copy(this.earth.position).addScaledVector(direction,radius*1.5/(Math.tan(this.camera.fov*rad/2)*Math.min(1,this.camera.aspect)));this.controls.update();
+ }
+ updateGeography(){
+ const earth=this.earth.position,radius=this.layout.earthRadius,distance=this.camera.position.distanceTo(earth),screenRadius=radius/distance/Math.tan(this.camera.fov*rad/2)*this.host.clientHeight/2;
+ this.host.classList.toggle('earth-close',this.nearEarth);document.body.classList.toggle('earth-near',this.nearEarth);this.marker.scale.setScalar(this.nearEarth?.2:1);const hud=this.host.querySelector('#phaseHud')?.getBoundingClientRect(),hostRect=this.host.getBoundingClientRect();
+ const occupied:{x:number;y:number;w:number;h:number}[]=[];
+ this.geoLabels.forEach((label,j)=>{const place=geography[j],normal=vec(geographicNormal(place.lat,place.lon)).applyQuaternion(this.earth.quaternion),point=earth.clone().addScaledVector(normal,radius*1.025),q=point.clone().project(this.camera),front=normal.dot(this.camera.position.clone().sub(earth).normalize())>radius/distance;
+ const x=(q.x+1)*this.host.clientWidth/2,y=(1-q.y)*this.host.clientHeight/2,w=Math.max(48,place.name.length*15+12),h=44;const overlaps=occupied.some(r=>Math.abs(x-r.x)<(w+r.w)/2+3&&Math.abs(y-r.y)<(h+r.h)/2+2);
+ const show=this.mapLoaded&&screenRadius>(place.kind==='place'?40:42)&&front&&q.z<1&&x>w/2&&x<this.host.clientWidth-w/2&&y>h/2&&y<this.host.clientHeight-h/2-(this.presentation?0:54)&&!overlaps&&!(this.presentation&&hud&&x+w/2>hud.left-hostRect.left&&y-h/2<hud.bottom-hostRect.top);
+ label.hidden=!show;if(show){occupied.push({x,y,w,h});label.style.left=x+'px';label.style.top=y+'px';}
+ });
+ (this.earth.material as T.ShaderMaterial).uniforms.mapReading.value=this.mapReading?1:0;
+ }
  setPresentation(on:boolean){
  this.presentation=on;this.axisGroup.visible=true;this.moonAxis.visible=on;this.ecliptic.visible=false;this.moonPlane.visible=on;this.apsides.visible=on;this.marker.visible=!on;this.stars.visible=!on;
  if(on){this.orbit.visible=true;this.node.visible=true;this.earthOrbit.visible=true;}
