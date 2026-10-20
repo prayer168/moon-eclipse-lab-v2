@@ -1,0 +1,94 @@
+{
+  "sizes": [
+    {
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "0px",
+      "height": 900,
+      "host": {
+        "bottom": 900,
+        "height": 900,
+        "left": 0,
+        "right": 1440,
+        "top": 0,
+        "width": 1440,
+        "x": 0,
+        "y": 0
+      },
+      "hud": {
+        "bottom": 273.5,
+        "height": 259.5,
+        "left": 1266,
+        "right": 1422,
+        "top": 14,
+        "width": 156,
+        "x": 1266,
+        "y": 14
+      },
+      "overflow": false,
+      "visibleButtons": 0,
+      "width": 1440
+    },
+    {
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "0px",
+      "height": 768,
+      "host": {
+        "bottom": 768,
+        "height": 768,
+        "left": 0,
+        "right": 1024,
+        "top": 0,
+        "width": 1024,
+        "x": 0,
+        "y": 0
+      },
+      "hud": {
+        "bottom": 273.5,
+        "height": 259.5,
+        "left": 850,
+        "right": 1006,
+        "top": 14,
+        "width": 156,
+        "x": 850,
+        "y": 14
+      },
+      "overflow": false,
+      "visibleButtons": 0,
+      "width": 1024
+    },
+    {
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "0px",
+      "height": 844,
+      "host": {
+        "bottom": 844,
+        "height": 844,
+        "left": 0,
+        "right": 390,
+        "top": 0,
+        "width": 390,
+        "x": 0,
+        "y": 0
+      },
+      "hud": {
+        "bottom": 229,
+        "height": 221,
+        "left": 254,
+        "right": 382,
+        "top": 8,
+        "width": 128,
+        "x": 254,
+        "y": 8
+      },
+      "overflow": false,
+      "visibleButtons": 0,
+      "width": 390
+    }
+  ],
+  "slow": "第 183.19 天｜0.1 天／秒",
+  "paused": "第 921.78 天｜暫停",
+  "cameraPhaseUnchanged": true,
+  "errors": [],
+  "nativeFullscreen": "entered, HUD visible, Escape restores interface",
+  "touchHardware": "not tested; long-press recognizer unit tested"
+}

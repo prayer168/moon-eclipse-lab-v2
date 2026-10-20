@@ -1,4 +1,5 @@
 import './style.css';
+import {HoldToExit} from './hold-to-exit';
 import {mountLayout,groupControls,pagedText,pagedEditor} from './layout';
 import {SpaceScene,drawObservation} from './scene';
 import {earthOrbit,defaults,caseParams,snapshot,nextPhase,nextEvent,globalSolar,lunar,positions,unit,sub,mod,rad,synodic,C,type Params} from './model';
@@ -44,6 +45,14 @@ function update(){
  $('#observerLabel').textContent=(mode==='solar'?'日食':'月面')+(sky?'・地面方向':'・放大');
  const canvas=$<HTMLCanvasElement>('#observation');canvas.setAttribute('aria-label',`${s.phase.name}，受光${(s.phase.k*100).toFixed(1)}%，${s.lunar.type}，當地${s.solar.type}，${vis}`);
  drawObservation(canvas,p,mode==='solar',sky);scene?.update(p,layers);
+ if(presentation){
+  const hud=$<HTMLCanvasElement>('#phaseHudCanvas');drawObservation(hud,p,false,false,true);
+  hud.setAttribute('aria-label',`地球所見${s.phase.name}，受光${(s.phase.k*100).toFixed(1)}%，${s.lunar.type}`);
+  $('#phaseHudName').textContent=s.phase.name;$('#phaseHudPercent').textContent=`受光 ${(s.phase.k*100).toFixed(1)}%`;
+  $('#phaseHudEclipse').textContent=s.lunar.type==='無月食'?'':`${s.lunar.type}・變暗另計`;
+  $('#phaseHudClock').textContent=`第 ${p.t.toFixed(2)} 天｜${playing?speed+' 天／秒':'暫停'}`;
+ }
+
 }
 try{scene=new SpaceScene($('#space'));}catch{ $('#space').innerHTML='<div class="controls"><h3>此裝置無法使用 WebGL</h3><p>可繼續使用時間、傾角、觀測窗與文字結果探索。3D 旋轉暫不可用。</p><svg viewBox="0 0 400 150" role="img" aria-label="太陽照射地球與月球概念圖"><circle cx="60" cy="75" r="30" fill="#ffd17b"/><path d="M95 75H260" stroke="#ffd17b"/><circle cx="290" cy="75" r="20" fill="#75c7ba"/><circle cx="350" cy="75" r="9" fill="#ddd"/></svg></div>';status('WebGL 不可用：已啟用文字及2D觀察替代模式。');}
 const a=()=>answers[taskIndex];
@@ -96,7 +105,7 @@ function download(format:'json'|'csv'){
 }
 // Public controls all mutate one model state.
 let nextIntercept:number|null=null;
-$('#play').onclick=()=>{playing=!playing;if(playing)nextIntercept=$<HTMLInputElement>('#pauseAtEvent').checked?nextEvent(p):null;$('#play').textContent=playing?'Ⅱ 暫停':'▶ 播放';$('#scenePause').classList.toggle('hidden',!playing);};
+$('#play').onclick=()=>{playing=!playing;if(playing)nextIntercept=!presentation&&$<HTMLInputElement>('#pauseAtEvent').checked?nextEvent(p):null;$('#play').textContent=playing?'Ⅱ 暫停':'▶ 播放';$('#scenePause').classList.toggle('hidden',!playing);};
 $<HTMLSelectElement>('#speed').onchange=e=>{speed=Number((e.target as HTMLSelectElement).value);};
 $<HTMLInputElement>('#time').oninput=e=>{stop();p.t=Number((e.target as HTMLInputElement).value);update();save();};
 $('#prevWindow').onclick=()=>{stop();windowStart-=35;p.t=windowStart;update();save();};$('#nextWindow').onclick=()=>{stop();windowStart+=35;p.t=windowStart;update();save();};
@@ -122,37 +131,48 @@ $('#axisClose').onclick=()=>{stop();setReferenceFrame('earth');scene?.view('axis
 $('#scenePause').onclick=stop;
 $('#top').onclick=()=>scene?.view('top');$('#side').onclick=()=>scene?.view('side');$('#cameraReset').onclick=()=>scene?.view('reset');$('#zoomIn').onclick=()=>scene?.zoom(.8);$('#zoomOut').onclick=()=>scene?.zoom(1.25);
 $('#reset').onclick=()=>{stop();p={...defaults};windowStart=0;speed=1;sky=false;layers=true;$<HTMLSelectElement>('#speed').value='1';$<HTMLInputElement>('#sky').checked=false;$<HTMLInputElement>('#layers').checked=true;$<HTMLSelectElement>('#preset').value='';$<HTMLInputElement>('#pauseAtEvent').checked=true;setReferenceFrame('sun');setMode('phase');setPane('scene');save();status('實驗已重設，作答與證據保留。');};
-$('#help').onclick=()=>{pagedText($('#helpContent'),'全螢幕展示只保留日地月，可拖曳旋轉、縮放；空白鍵或雙擊播放／暫停，左右方向鍵微調時間，Esc返回。本教材為示意幾何模型，不是日期預報。手機使用3D實驗、觀測、設定、地點分區切換；桌面在右側切換。拖曳旋轉、雙指或滾輪縮放，也可用俯視、側視及縮放按鈕。公轉全景觀察地球繞日；看自轉軸可放大23.44°傾角。探究挑戰有預測、證據、解釋、檢核四步，內容自動保存。長文字可前後分段，證據可逐筆翻頁。地面可見性以高度文字為準。月食紅色僅為大氣折射概念著色。實際看太陽須使用合適安全觀測方法。',105);$<HTMLDialogElement>('#helpDialog').showModal();};$('#closeHelp').onclick=()=>$<HTMLDialogElement>('#helpDialog').close();
+$('#help').onclick=()=>{pagedText($('#helpContent'),'全螢幕保留日地月、軸線與淡色軌道面；右上角為地球所見月相。拖曳旋轉、縮放；空白鍵或雙擊播放／暫停，1慢速看自轉（0.1天／秒），2快速看公轉（100天／秒），高速自轉可能產生視覺混疊。左右方向鍵微調時間，Esc或靜止長按0.9秒返回。月球同步自轉，月軸相對黃道北方固定傾斜1.54°，未模擬18.6年進動。本教材為示意幾何模型，不是日期預報。手機使用3D實驗、觀測、設定、地點分區切換；桌面在右側切換。拖曳旋轉、雙指或滾輪縮放，也可用俯視、側視及縮放按鈕。公轉全景觀察地球繞日；看自轉軸可放大23.44°傾角。探究挑戰有預測、證據、解釋、檢核四步，內容自動保存。長文字可前後分段，證據可逐筆翻頁。地面可見性以高度文字為準。月食紅色僅為大氣折射概念著色。實際看太陽須使用合適安全觀測方法。',105);$<HTMLDialogElement>('#helpDialog').showModal();};$('#closeHelp').onclick=()=>$<HTMLDialogElement>('#helpDialog').close();
 $('#clear').onclick=()=>$<HTMLDialogElement>('#clearDialog').showModal();$('#cancelClear').onclick=()=>$<HTMLDialogElement>('#clearDialog').close();$('#confirmClear').onclick=()=>{answers=tasks.map(fresh);save();renderTask();$<HTMLDialogElement>('#clearDialog').close();status('全部作答已清除。');};
 $('#json').onclick=()=>download('json');$('#csv').onclick=()=>download('csv');
 let presentation=false,nativeRequested=false;
 let restorePresentation:(()=>void)|null=null;
-async function enterPresentation(){
+async function enterPresentation(native=true){
  if(presentation)return;
  if(!scene){status('此裝置無法使用3D全螢幕展示。');return;}
  const previous={mode,pane:activePane,frame:scene.frame,position:scene.camera.position.clone(),target:scene.controls.target.clone()};
  restorePresentation=()=>{setMode(previous.mode);setPane(previous.pane);scene?.setFrame(previous.frame);$<HTMLSelectElement>('#referenceFrame').value=previous.frame;$('#frameLabel').textContent=previous.frame==='sun'?'太陽置中・公轉全景':'地球置中・月相近看';requestAnimationFrame(()=>{scene?.resize();scene?.camera.position.copy(previous.position);scene?.controls.target.copy(previous.target);scene?.controls.update();update();});};
- setMode('phase');setPane('scene');setReferenceFrame('sun');presentation=true;document.body.classList.add('presentation');scene.setPresentation(true);
+ setMode('phase');setPane('scene');setReferenceFrame('sun');presentation=true;nextIntercept=null;document.body.classList.add('presentation');scene.setPresentation(true);
+ update();noticePresentation('拖曳旋轉・雙指縮放｜雙擊播放／暫停｜1慢速・2快速｜Esc或長按返回');
  const host=$('#space');host.tabIndex=0;host.focus({preventScroll:true});
- if(host.requestFullscreen){nativeRequested=true;try{await host.requestFullscreen();}catch{nativeRequested=false;}}
+ if(native&&host.requestFullscreen){nativeRequested=true;try{await host.requestFullscreen();}catch{nativeRequested=false;}}
  requestAnimationFrame(()=>scene?.resize());
 }
 function finishPresentation(){
- if(!presentation)return;presentation=false;nativeRequested=false;document.body.classList.remove('presentation');scene?.setPresentation(false);restorePresentation?.();restorePresentation=null;save();$('#fullscreen').focus({preventScroll:true});
+ if(!presentation)return;holdExit.cancel();clearTimeout(noticeTimer);presentation=false;nativeRequested=false;nextIntercept=playing&&$<HTMLInputElement>('#pauseAtEvent').checked?nextEvent(p):null;document.body.classList.remove('presentation');scene?.setPresentation(false);restorePresentation?.();restorePresentation=null;save();$('#fullscreen').focus({preventScroll:true});
 }
 async function exitPresentation(){if(document.fullscreenElement===$('#space')){try{await document.exitFullscreen();}finally{finishPresentation();}}else finishPresentation();}
-$('#fullscreen').onclick=()=>void enterPresentation();
+$('#fullscreen').onclick=event=>void enterPresentation(!event.shiftKey);
 document.addEventListener('fullscreenchange',()=>{if(presentation&&nativeRequested&&!document.fullscreenElement)finishPresentation();});
 document.addEventListener('keydown',event=>{
  if(!presentation||event.altKey||event.ctrlKey||event.metaKey)return;
  if(event.key==='Escape'){event.preventDefault();void exitPresentation();}
- else if(event.code==='Space'){event.preventDefault();$('#play').click();}
+ else if(event.code==='Space'){event.preventDefault();$('#play').click();update();noticePresentation(playing?'播放':'暫停');}
+ else if(event.key==='1'||event.key==='2'){event.preventDefault();speed=event.key==='1'?.1:100;$<HTMLSelectElement>('#speed').value=String(speed);if(!playing)$('#play').click();update();noticePresentation(event.key==='1'?'慢速觀察自轉：0.1 天／秒':'快速觀察公轉：100 天／秒；地球自轉可能視覺混疊，勿判讀轉向');}
  else if(event.key==='ArrowRight'||event.key==='ArrowLeft'){event.preventDefault();stop();p.t+=event.key==='ArrowRight'?.25:-.25;update();}
  else if(event.key==='+'||event.key==='='){event.preventDefault();scene?.zoom(.8);}
  else if(event.key==='-'){event.preventDefault();scene?.zoom(1.25);}
  else if(event.key.toLowerCase()==='r'){event.preventDefault();scene?.view('reset');}
 });
-$('#space').addEventListener('dblclick',()=>{if(presentation)$('#play').click();});
+let noticeTimer:ReturnType<typeof setTimeout>|undefined;
+function noticePresentation(text:string){clearTimeout(noticeTimer);$('#presentationNotice').textContent=text;noticeTimer=setTimeout(()=>{$('#presentationNotice').textContent='';},4500);}
+const holdExit=new HoldToExit(()=>{if(presentation)void exitPresentation();});
+$('#space').addEventListener('pointerdown',event=>{if(presentation)holdExit.down(event.pointerId,event.clientX,event.clientY);});
+$('#space').addEventListener('pointermove',event=>{if(presentation)holdExit.move(event.clientX,event.clientY);});
+for(const name of ['pointerup','pointercancel'] as const)window.addEventListener(name,event=>holdExit.up(event.pointerId));
+window.addEventListener('blur',()=>holdExit.cancel());
+$('#space').addEventListener('contextmenu',event=>{if(presentation)event.preventDefault();});
+$('#space').addEventListener('dblclick',()=>{if(presentation){$('#play').click();update();noticePresentation(playing?'播放':'暫停');}});
+
 window.addEventListener('resize',()=>update());window.addEventListener('beforeunload',save);
 let last=performance.now(),paint=0;const frameDurations:number[]=[];
 function frame(now:number){const dt=Math.min((now-last)/1000,.1);frameDurations.push(now-last);if(frameDurations.length>600)frameDurations.shift();last=now;

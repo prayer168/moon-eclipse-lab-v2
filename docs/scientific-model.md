@@ -67,3 +67,8 @@ M=2πt/T，解 E−e sin E=M；x=−a(cos E−e)，y=−a√(1−e²)sin E。
 太陽視大小、地球影錐、月球繪圖陰影共用當下日地距離。月球仍以恆星月勻速圓周，不是完整三體動力學。
 四分之一年是相同時間間隔，公轉角不恰為90°。平均朔望月不代表每次新月間隔固定。
 來源：NASA Earth Fact Sheet https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html ；JPL Kepler equations https://ssd.jpl.nasa.gov/planets/approx_pos.html 。
+
+
+## 月球姿態與沉浸式HUD
+月球姿態現在以獨立自轉極軸及27.3217天轉角計算，不再把月球的自轉軸指向地球。月球極軸相對黃道北方1.54°，與軌道法線分列黃道北方兩側；固定交點時極軸在時間中維持方向，忽略18.6年進動與物理天平動。完整座標定義與驗證見 immersive-report.md、src/orientation.ts。
+HUD觀測方向使用月球到地心向量；畫面上方為黃道北方投影，右方向由正交叉積生成。像素亮度由同一太陽方向與表面法線計算；月食仍使用共享影錐資料。一般地面觀測窗仍使用地表觀測點，不與地心HUD混用。兩個畫面皆不由自由鏡頭反推科學狀態。
