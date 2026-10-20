@@ -88,3 +88,7 @@ IAU月球極軸與轉角由RotationAxis計算。地球姿態及地表觀測點�
 資料在建置時隨網站打包，執行時不需要外部API。固定臺灣標準時間UTC+08:00換算公曆日，不套用歷史夏令時間。農曆年使用對照表農曆年及干支，與西元春節前的年份可能不同。
 先前嘗試的Intl Chinese Calendar在2057-09-28與HKO表差一日，已完全移除，改用官方月首資料，沒有靠日期特例硬改天文月相。HKO亦提示遠未來接近午夜的新月／節氣日期可能有一日不確定性；本工具依下載日的公布曆表呈現。
 來源及重建： https://www.hko.gov.hk/tc/gts/time/conversion1_text.htm ；先執行tools/download-hko-calendar.ps1，再執行tools/build-hko-calendar.py。Astronomy Engine介面與原始碼： https://github.com/cosinekitty/astronomy 。
+
+## 太陽活動視覺示意
+太陽表面使用程序紋理，柔和光暈、72顆向外漸淡粒子與4組間歇弧線分別示意日冕、太陽風及日冕環；不是實際太陽影像、磁流體模擬或當日觀測。所有特效侷限於顯示半徑約1.65倍內，與日月位置、受光率和食象計算完全分離。特效速度按實際播放秒數累加，不隨模擬天／秒倍增；暫停凍結特效時間與模型時間，鏡頭仍可互動。即時模式讀取裝置時鐘，按全螢幕暫停轉為指定時間，再播放轉為模擬播放；回到現在由日期設定操作。
+減少動態設定隱藏粒子與弧線、停止表面紋理流動，保留靜態柔和光暈。移除黃道面大片填色，但保留軌道線、近日遠日點及文字說明。參考 NASA：https://science.nasa.gov/sun/what-is-the-solar-wind/ 、https://science.nasa.gov/photojournal/cascading-post-coronal-loops/ 。

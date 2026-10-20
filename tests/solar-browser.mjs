@@ -1,0 +1,13 @@
+import {chromium,expect} from '@playwright/test';
+import fs from 'node:fs';
+const browser=await chromium.launch({headless:true});const page=await browser.newPage();const errors=[];page.on('pageerror',e=>errors.push(String(e)));const results=[];
+await page.goto(process.env.LAB_URL||'http://127.0.0.1:5173');await page.waitForFunction(()=>window.labDiagnostics?.().webgl);
+for(const [width,height] of [[1440,900],[1024,768],[390,844]]){
+ await page.setViewportSize({width,height});await page.locator('#fullscreen').click({modifiers:['Shift']});const button=page.locator('#presentationPlay');await expect(button).toBeVisible();const box=await button.boundingBox();expect(box.height).toBeGreaterThanOrEqual(48);expect(box.x+box.width).toBeLessThanOrEqual(width);expect(box.y+box.height).toBeLessThanOrEqual(height);
+ const d=()=>page.evaluate(()=>window.labDiagnostics());if((await d()).playing||(await d()).clockSource==='now')await button.click();const a=await d();await page.waitForTimeout(350);const b=await d();expect(b.p.t).toBe(a.p.t);expect(b.display.solarTime).toBe(a.display.solarTime);expect(b.display.eclipticVisible).toBe(false);
+ await button.click();await page.waitForTimeout(400);const c=await d();expect(c.p.t).toBeGreaterThan(b.p.t);expect(c.display.solarTime).toBeGreaterThan(b.display.solarTime);await button.click();const fixed=(await d()).p.t;await page.mouse.move(width*.4,height*.5);await page.mouse.down();await page.mouse.move(width*.5,height*.55,{steps:8});await page.mouse.up();expect((await d()).p.t).toBe(fixed);await expect(page.locator('#hudGregorian')).toBeVisible();
+ expect(await page.evaluate(()=>document.documentElement.scrollHeight<=innerHeight&&document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.screenshot({path:`docs/solar-fullscreen-${width}.png`});results.push({width,height,pause:true,resume:true,orbitDiskRemoved:true,dragWhilePaused:true,noScroll:true,button:box});await page.locator('#space').press('Escape');
+}
+await page.emulateMedia({reducedMotion:'reduce'});await page.waitForTimeout(100);expect((await page.evaluate(()=>window.labDiagnostics())).display.solarParticlesVisible).toBe(false);
+await page.locator('#fullscreen').click();await expect(page.locator('#presentationPlay')).toBeVisible();await page.locator('#space').press('Escape');expect(errors).toEqual([]);
+fs.writeFileSync('docs/solar-playwright.json',JSON.stringify({browser:browser.version(),conditions:'Windows headless Chromium; emulated viewports, not physical devices',results,reducedMotion:true,nativeFullscreen:true,errors},null,2));await browser.close();console.log('Solar fullscreen checks passed');

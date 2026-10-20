@@ -43,6 +43,7 @@ function syncInputs(){
  $('#inclinationLabel').textContent=p.i.toFixed(3)+'°';$('#nodeLabel').textContent=p.node.toFixed(0)+'°';$('#windowLabel').textContent=p.model==='ephemeris'?`${civilParts(dateFromDays(windowStart).getTime()).date}～${civilParts(dateFromDays(windowStart+35).getTime()).date}`:`第 ${windowStart}～${windowStart+35} 天`;
 }
 function update(){
+ const running=playing||clockSource==='now',presentationButton=$('#presentationPlay');if(presentationButton){presentationButton.textContent=running?'Ⅱ 暫停':'▶ 播放';presentationButton.setAttribute('aria-label',running?'暫停模擬':'播放模擬');}
  const real=p.model==='ephemeris';
  if(real){const ms=dateFromDays(p.t).getTime();if(ms<MIN_MS||ms>MAX_MS){p.t=daysFromMs(Math.max(MIN_MS,Math.min(MAX_MS,ms)));stop();status('已到1901–2100年支援範圍邊界，停止播放。');}const q=realPositions(p.t);p.i=q.inclination;p.node=q.node;p.distance=q.distance;}
  const s=snapshot(p);syncInputs();syncCalendar();$('#timeLabel').textContent=real?`${calendarLabels(p.t).date} ${calendarLabels(p.t).time}`:`第 ${p.t.toFixed(3)} 天`;$('#phaseName').textContent=s.phase.name;$('#lit').textContent=(s.phase.k*100).toFixed(1)+'%';$('#globalEvent').textContent=s.global.type;$('#lunarEvent').textContent=s.lunar.type;
@@ -166,7 +167,7 @@ $('#axisClose').onclick=()=>{stop();setReferenceFrame('earth');scene?.view('axis
 $('#scenePause').onclick=()=>{stop();update();};
 $('#top').onclick=()=>scene?.view('top');$('#side').onclick=()=>scene?.view('side');$('#cameraReset').onclick=()=>scene?.view('reset');$('#zoomIn').onclick=()=>scene?.zoom(.8);$('#zoomOut').onclick=()=>scene?.zoom(1.25);
 $('#reset').onclick=()=>{stop();p={...defaults};clockSource='teaching';teachingParams={...defaults};dateEditing=false;windowStart=0;speed=1;sky=false;layers=true;$<HTMLSelectElement>('#speed').value='1';$<HTMLInputElement>('#sky').checked=false;$<HTMLInputElement>('#layers').checked=true;$<HTMLSelectElement>('#preset').value='';$<HTMLInputElement>('#pauseAtEvent').checked=true;setReferenceFrame('sun');setMode('phase');setPane('scene');save();status('實驗已重設，作答與證據保留。');};
-$('#help').onclick=()=>{pagedText($('#helpContent'),'全螢幕保留日地月、軸線與淡色軌道面；右上角為地球所見月相。拖曳旋轉、縮放；空白鍵或雙擊播放／暫停，1慢速看自轉（0.1天／秒），2快速看公轉（100天／秒），高速自轉可能產生視覺混疊。左右方向鍵微調時間，Esc或靜止長按0.9秒返回。探究模式月軸採固定1.54°近似；真實日期模式使用星曆位置及IAU姿態。日期設定可回到現在、選日預設20:00、前後一天；臺灣標準時間UTC+08:00，1901–2100年，不套用歷史夏令時間。月相放大為地心，當地夜空以地表與地平線判斷。本教材為示意幾何模型，不是日期預報。手機使用3D實驗、觀測、設定、地點分區切換；桌面在右側切換。拖曳旋轉、雙指或滾輪縮放，也可用俯視、側視及縮放按鈕。公轉全景觀察地球繞日；看自轉軸可放大23.44°傾角。探究挑戰有預測、證據、解釋、檢核四步，內容自動保存。長文字可前後分段，證據可逐筆翻頁。地面可見性以高度文字為準。月食紅色僅為大氣折射概念著色。實際看太陽須使用合適安全觀測方法。',105);$<HTMLDialogElement>('#helpDialog').showModal();};$('#closeHelp').onclick=()=>$<HTMLDialogElement>('#helpDialog').close();
+$('#help').onclick=()=>{pagedText($('#helpContent'),'全螢幕保留日地月、軸線與軌道線，移除黃道面填色；右下角可播放／暫停。太陽活動為示意，非當日觀測，動態速度不按比例，暫停時同步停止；右上角為地球所見月相。拖曳旋轉、縮放；空白鍵或雙擊播放／暫停，1慢速看自轉（0.1天／秒），2快速看公轉（100天／秒），高速自轉可能產生視覺混疊。左右方向鍵微調時間，Esc或靜止長按0.9秒返回。探究模式月軸採固定1.54°近似；真實日期模式使用星曆位置及IAU姿態。日期設定可回到現在、選日預設20:00、前後一天；臺灣標準時間UTC+08:00，1901–2100年，不套用歷史夏令時間。月相放大為地心，當地夜空以地表與地平線判斷。本教材為示意幾何模型，不是日期預報。手機使用3D實驗、觀測、設定、地點分區切換；桌面在右側切換。拖曳旋轉、雙指或滾輪縮放，也可用俯視、側視及縮放按鈕。公轉全景觀察地球繞日；看自轉軸可放大23.44°傾角。探究挑戰有預測、證據、解釋、檢核四步，內容自動保存。長文字可前後分段，證據可逐筆翻頁。地面可見性以高度文字為準。月食紅色僅為大氣折射概念著色。實際看太陽須使用合適安全觀測方法。',105);$<HTMLDialogElement>('#helpDialog').showModal();};$('#closeHelp').onclick=()=>$<HTMLDialogElement>('#helpDialog').close();
 $('#clear').onclick=()=>$<HTMLDialogElement>('#clearDialog').showModal();$('#cancelClear').onclick=()=>$<HTMLDialogElement>('#clearDialog').close();$('#confirmClear').onclick=()=>{answers=tasks.map(fresh);save();renderTask();$<HTMLDialogElement>('#clearDialog').close();status('全部作答已清除。');};
 $('#json').onclick=()=>download('json');$('#csv').onclick=()=>download('csv');
 let presentation=false,nativeRequested=false;
@@ -206,6 +207,8 @@ $('#space').addEventListener('pointermove',event=>{if(presentation)holdExit.move
 for(const name of ['pointerup','pointercancel'] as const)window.addEventListener(name,event=>holdExit.up(event.pointerId));
 window.addEventListener('blur',()=>holdExit.cancel());
 $('#space').addEventListener('contextmenu',event=>{if(presentation)event.preventDefault();});
+if($('#presentationPlay'))$('#presentationPlay').onclick=()=>{if(clockSource==='now'){stop();update();}else $('#play').click();};
+for(const event of ['pointerdown','dblclick'] as const)$('#presentationPlay')?.addEventListener(event,e=>e.stopPropagation());
 $('#space').addEventListener('dblclick',()=>{if(presentation){$('#play').click();update();noticePresentation(playing?'播放':'暫停');}});
 
 window.addEventListener('resize',()=>update());window.addEventListener('beforeunload',save);
@@ -213,8 +216,8 @@ let last=performance.now(),paint=0;const frameDurations:number[]=[];
 function frame(now:number){const dt=Math.min((now-last)/1000,.1);frameDurations.push(now-last);if(frameDurations.length>600)frameDurations.shift();last=now;
  if(p.model==='ephemeris'&&clockSource==='now'&&now-paint>1000){p.t=daysFromMs(Date.now());update();paint=now;}
  if(playing){const end=p.t+dt*speed;if(nextIntercept!==null&&end>=nextIntercept){p.t=nextIntercept;stop();update();status(p.model==='ephemeris'?'已在星曆食象中心時刻暫停；當地可見性另依地平線。':'已在食象開始附近自動暫停，避免快速播放略過事件。');}else p.t=end;}
- if(playing&&now-paint>33){update();paint=now;}scene?.render();requestAnimationFrame(frame);
+ if(playing&&now-paint>33){update();paint=now;}scene?.solar.advance(dt,playing||clockSource==='now');scene?.render();requestAnimationFrame(frame);
 }
 // Read-only diagnostics used by reproducible browser acceptance tests.
-Object.assign(window,{labDiagnostics:()=>({p:{...p},clockSource,isoTime:p.model==='ephemeris'?dateFromDays(p.t).toISOString():null,snapshot:snapshot(p),answers:JSON.parse(JSON.stringify(answers)),playing,storageOK,webgl:!!scene,ui:{mode,pane:activePane,step:uiStep,presentation},display:scene?{frame:scene.frame,layout:scene.layout,axisVisible:scene.axisGroup.visible,orbitVisible:scene.orbit.visible,earthOrbitVisible:scene.earthOrbit.visible,markerVisible:scene.marker.visible,starsVisible:scene.stars.visible,shadowWireframes:0}:null,renderScale:scene?.quality,drawCalls:scene?.renderer.info.render.calls,frames:frameDurations.length,fps:frameDurations.length?1000/(frameDurations.reduce((a,b)=>a+b,0)/frameDurations.length):0})});
+Object.assign(window,{labDiagnostics:()=>({p:{...p},clockSource,isoTime:p.model==='ephemeris'?dateFromDays(p.t).toISOString():null,snapshot:snapshot(p),answers:JSON.parse(JSON.stringify(answers)),playing,storageOK,webgl:!!scene,ui:{mode,pane:activePane,step:uiStep,presentation},display:scene?{frame:scene.frame,layout:scene.layout,axisVisible:scene.axisGroup.visible,orbitVisible:scene.orbit.visible,earthOrbitVisible:scene.earthOrbit.visible,markerVisible:scene.marker.visible,starsVisible:scene.stars.visible,eclipticVisible:scene.ecliptic.visible,solarTime:scene.solar.time,solarParticlesVisible:scene.solar.particles.visible,shadowWireframes:0}:null,renderScale:scene?.quality,drawCalls:scene?.renderer.info.render.calls,frames:frameDurations.length,fps:frameDurations.length?1000/(frameDurations.reduce((a,b)=>a+b,0)/frameDurations.length):0})});
 renderTask();update();if(!storageOK)status('本機儲存無法使用，請匯出作答。');else if(p.model==='ephemeris')status('真實日期：星曆位置及HKO農曆；幾何食象為近似，非專業預報。');requestAnimationFrame(frame);
