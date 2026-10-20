@@ -1,0 +1,37 @@
+[
+  {
+    "case": "total",
+    "global": "日全食",
+    "lunar": "無月食"
+  },
+  {
+    "case": "annular",
+    "global": "日環食",
+    "lunar": "無月食"
+  },
+  {
+    "case": "partial",
+    "global": "日全食",
+    "lunar": "無月食"
+  },
+  {
+    "case": "lunar",
+    "global": "無日食",
+    "lunar": "月全食"
+  },
+  {
+    "case": "lunarPartial",
+    "global": "無日食",
+    "lunar": "月偏食"
+  },
+  {
+    "case": "penumbral",
+    "global": "無日食",
+    "lunar": "半影月食"
+  },
+  {
+    "case": "none",
+    "global": "無日食",
+    "lunar": "無月食"
+  }
+]

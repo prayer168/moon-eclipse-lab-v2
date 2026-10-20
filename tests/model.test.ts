@@ -1,8 +1,8 @@
 import {describe,it,expect} from 'vitest';
-import {C,rad,defaults,positions,phase,synodic,nextPhase,caseParams,snapshot,solarAt,lunar,altitude,observer,globalSolar,nextEvent,type V} from '../src/model';
+import {earthOrbit,norm,cross,dot,C,rad,defaults,positions,phase,synodic,nextPhase,caseParams,snapshot,solarAt,lunar,altitude,observer,globalSolar,nextEvent,type V} from '../src/model';
 describe('相位與軌道',()=>{
- it('共面四大相位亮面符合公式',()=>{[0,.25,.5,.75].forEach((f,i)=>{const s=phase({...defaults,i:0,t:synodic*f});expect(s.k).toBeCloseTo([0,.5,1,.5][i],2);expect(s.name).toBe(['新月','上弦月','滿月','下弦月'][i]);});});
- it('區分恆星月與朔望月',()=>{expect(synodic).toBeCloseTo(29.5306,2);expect(phase({...defaults,i:0,t:C.month}).k).toBeGreaterThan(.04);expect(phase({...defaults,i:0,t:synodic}).k).toBeLessThan(1e-8);});
+ it('共面四大相位依實際相位根計算',()=>{let p={...defaults,t:0,i:0};for(const [name,k] of [['新月',0],['上弦月',.5],['滿月',1],['下弦月',.5]] as const){const q=phase(p);expect(q.name).toBe(name);expect(q.k).toBeCloseTo(k,2);p.t=nextPhase(p);}});
+ it('區分恆星月與平均朔望月',()=>{expect(synodic).toBeCloseTo(29.5306,2);expect(phase({...defaults,i:0,t:C.month}).k).toBeGreaterThan(.04);let p={...defaults,i:0,t:0};for(let j=0;j<4;j++)p.t=nextPhase(p);expect(phase(p).k).toBeLessThan(1e-8);expect(Math.abs(p.t-synodic)).toBeGreaterThan(.001);});
  it('傾角的法向與地月距離正確',()=>{const p=positions({...defaults,t:C.month/4,i:10,node:0});expect(p.relative[2]/defaults.distance).toBeCloseTo(Math.sin(10*rad),8);expect(Math.hypot(...p.relative)).toBeCloseTo(defaults.distance,6);});
  it('下一相位逐次前進',()=>{let p={...defaults,t:0,i:0};for(const name of ['上弦月','滿月','下弦月','新月','上弦月']){const t=nextPhase(p);expect(t).toBeGreaterThan(p.t);p.t=t;expect(phase(p).name).toBe(name);}});
 });
@@ -19,8 +19,13 @@ describe('月食與地平線',()=>{
 });
 
 describe('模型精度與退化案例',()=>{
- it('保留有限日地距離造成的弦月微差',()=>{const expected=(1+defaults.distance/Math.hypot(C.au,defaults.distance))/2;expect(phase({...defaults,i:0,t:synodic/4}).k).toBeCloseTo(expected,10);});
+ it('有限日地距離的弦月微差',()=>{const t=nextPhase({...defaults,t:0,i:0}),D=earthOrbit(t).distance;const expected=(1+defaults.distance/Math.hypot(D,defaults.distance))/2;expect(phase({...defaults,i:0,t}).k).toBeCloseTo(expected,10);});
  it('預設無食案例仍是新月',()=>{const q=caseParams('none');expect(phase(q).name).toBe('新月');expect(globalSolar(q).type).toBe('無日食');});
  it('南北極觀測基底無NaN',()=>{for(const lat of [-90,90]){const o=observer({...defaults,lat});expect([...o.up,...o.north,...o.east].every(Number.isFinite)).toBe(true);}});
  it('400天搜尋能定位有食象狀態並避開目前事件',()=>{for(const i of [0,5.145,10]){const q={...defaults,i,t:1},t=nextEvent(q);expect(t).not.toBeNull();const s=snapshot({...q,t:t!});expect(s.global.type!=='無日食'||s.lunar.type!=='無月食').toBe(true);expect(nextEvent({...q,t:t!})!).toBeGreaterThan(t!+1);}});
+});
+
+describe('克卜勒橢圓物理不變量',()=>{
+ it('近日遠日距離與速度',()=>{const a=earthOrbit(0),b=earthOrbit(C.year/2);expect(a.distance).toBeCloseTo(147101680,3);expect(b.distance).toBeCloseTo(152098320,3);expect(a.speed).toBeGreaterThan(b.speed);expect(a.speed/b.speed).toBeCloseTo((1+C.eccentricity)/(1-C.eccentricity),10);});
+ it('克卜勒殘差、角動量、能量、軌道閉合',()=>{const initial=earthOrbit(0),h=norm(cross(initial.earth,initial.velocity)),mu=(2*Math.PI/C.year)**2*C.au**3,energy=-mu/(2*C.au);for(let t=-500;t<800;t+=1.7){const q=earthOrbit(t);expect(Math.abs(q.E-C.eccentricity*Math.sin(q.E)-q.M)).toBeLessThan(1e-12);expect(norm(cross(q.earth,q.velocity))/h).toBeCloseTo(1,10);expect((dot(q.velocity,q.velocity)/2-mu/q.distance)/energy).toBeCloseTo(1,10);const r=earthOrbit(t+C.year);r.earth.forEach((v,j)=>expect(v/C.au).toBeCloseTo(q.earth[j]/C.au,10));}});
 });

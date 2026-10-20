@@ -1,8 +1,8 @@
-import {positions,unit,sub,mul,add,rad,type V,type Params} from './model';
+import {C,positions,unit,sub,mul,add,rad,type V,type Params} from './model';
 export type ReferenceFrame='sun'|'earth';
 export function displayLayout(p:Params,frame:ReferenceFrame){
  const pos=positions(p),solar=frame==='sun';
- const earth:V=solar?mul(unit(pos.earth),105):[0,0,0];
+ const earth:V=solar?mul(pos.earth,105/C.au):[0,0,0];
  const sun:V=solar?[0,0,0]:mul(unit(sub(pos.sun,pos.earth)),155);
  const moonOrbitRadius=solar?17:43;
  const moon=add(earth,mul(unit(pos.relative),moonOrbitRadius));

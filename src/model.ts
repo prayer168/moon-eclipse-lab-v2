@@ -1,5 +1,5 @@
 export type V = [number,number,number];
-export const C={sun:696000,earth:6371,moon:1737,au:149600000,month:27.3217,year:365.256};
+export const C={sun:696000,earth:6371,moon:1737,au:149600000,month:27.3217,year:365.256,eccentricity:0.0167};
 export const rad=Math.PI/180, tau=2*Math.PI;
 export const add=(a:V,b:V):V=>a.map((x,i)=>x+b[i]) as V;
 export const sub=(a:V,b:V):V=>a.map((x,i)=>x-b[i]) as V;
@@ -13,9 +13,18 @@ export const angle=(a:V,b:V)=>Math.acos(clamp(dot(unit(a),unit(b))));
 export const mod=(x:number,n=tau)=>(x%n+n)%n;
 export interface Params {t:number;i:number;node:number;distance:number;lat:number;lon:number;}
 export const defaults:Params={t:5,i:5.145,node:0,distance:384400,lat:23.5,lon:121};
+// Teaching perihelion epoch; not a calendar date.
+export function earthOrbit(t:number){
+ const M=mod(tau*t/C.year),e=C.eccentricity;let E=M;
+ for(let j=0;j<12;j++){const d=(E-e*Math.sin(E)-M)/(1-e*Math.cos(E));E-=d;if(Math.abs(d)<1e-14)break;}
+ const b=C.au*Math.sqrt(1-e*e),rate=tau/C.year/(1-e*Math.cos(E));
+ const earth:V=[-C.au*(Math.cos(E)-e),-b*Math.sin(E),0];
+ const velocity:V=[C.au*Math.sin(E)*rate,-b*Math.cos(E)*rate,0];
+ return {earth,velocity,M,E,distance:norm(earth),speed:norm(velocity)/86400,trueAnomaly:mod(Math.atan2(-earth[1],-earth[0]))};
+}
 export function positions(p:Params){
- const e=tau*p.t/C.year, m=tau*p.t/C.month, n=p.node*rad, i=p.i*rad;
- const earth:V=[-C.au*Math.cos(e),-C.au*Math.sin(e),0];
+ const m=tau*p.t/C.month, n=p.node*rad, i=p.i*rad;
+ const {earth}=earthOrbit(p.t);
  const q:V=[p.distance*Math.cos(m),p.distance*Math.sin(m)*Math.cos(i),p.distance*Math.sin(m)*Math.sin(i)];
  const relative:V=[q[0]*Math.cos(n)-q[1]*Math.sin(n),q[0]*Math.sin(n)+q[1]*Math.cos(n),q[2]];
  return {sun:[0,0,0] as V,earth,moon:add(earth,relative),relative};
@@ -100,10 +109,11 @@ export function caseParams(kind:string):Params{
  if(kind==='total')p.distance=356500;
  if(kind==='annular')p.distance=405500;
  if(kind==='partial'){p.distance=356500;p.t=.025;}
- if(kind==='lunar')p.t=synodic/2;
- if(kind==='lunarPartial'){p.t=synodic/2+.07;}
- if(kind==='penumbral'){p.t=synodic/2+.10;}
- if(kind==='none'){p.i=5.145;p.t=C.month/4;p.node=mod(tau*p.t/C.year-Math.PI/2)/rad;}
+ const full=nextPhase({...p,t:nextPhase(p)});
+ if(kind==='lunar')p.t=full;
+ if(kind==='lunarPartial'){p.t=full+.07;}
+ if(kind==='penumbral'){p.t=full+.10;}
+ if(kind==='none'){p.i=5.145;p.t=C.month/4;p.node=mod(earthOrbit(p.t).trueAnomaly-Math.PI/2)/rad;}
  // Choose a real surface point on the sunward limb of Earth for solar demonstrations.
  if(['total','annular','partial','lunar','lunarPartial','penumbral'].includes(kind)){
   const pos=positions(p),target=['lunar','lunarPartial','penumbral'].includes(kind)?pos.moon:pos.sun,up=unit(sub(target,pos.earth)),tilt=23.44*rad;

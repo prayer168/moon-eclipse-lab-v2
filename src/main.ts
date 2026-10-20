@@ -1,7 +1,7 @@
 import './style.css';
 import {mountLayout,groupControls,pagedText,pagedEditor} from './layout';
 import {SpaceScene,drawObservation} from './scene';
-import {defaults,caseParams,snapshot,nextPhase,nextEvent,globalSolar,lunar,positions,unit,sub,mod,rad,synodic,C,type Params} from './model';
+import {earthOrbit,defaults,caseParams,snapshot,nextPhase,nextEvent,globalSolar,lunar,positions,unit,sub,mod,rad,synodic,C,type Params} from './model';
 import {tasks} from './tasks';
 const $=<T extends HTMLElement=HTMLElement>(s:string)=>document.querySelector<T>(s)!;
 const esc=(s:unknown)=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]!));
@@ -36,7 +36,8 @@ function syncInputs(){
 }
 function update(){
  const s=snapshot(p);syncInputs();$('#timeLabel').textContent=`第 ${p.t.toFixed(3)} 天`;$('#phaseName').textContent=s.phase.name;$('#lit').textContent=(s.phase.k*100).toFixed(1)+'%';$('#globalEvent').textContent=s.global.type;$('#lunarEvent').textContent=s.lunar.type;
- $('#revolutionLabel').textContent=`地球公轉約365.256天一圈，目前公轉角 ${(mod(p.t/C.year*360,360)).toFixed(1)}°。自轉軸傾角 23.44°（相對黃道面法線）。`;
+ const orbit=earthOrbit(p.t);
+ $('#revolutionLabel').textContent=`日地 ${(orbit.distance/1e6).toFixed(3)} 百萬km｜${orbit.speed.toFixed(2)} km/s｜e=0.0167。近日147.102／遠日152.098百萬km；真比例近圓形。`;
  $('#distance').textContent=`案例地月距離 ${p.distance.toLocaleString()} km`;
  const alt=mode==='solar'?s.sunAlt:s.moonAlt,vis=alt>0?'位於地平線上':'當地不可見（地平線下）';
  $('#visibility').textContent=`當地幾何：${s.solar.type}｜${vis}。太陽高度 ${s.sunAlt.toFixed(1)}°；月球高度 ${s.moonAlt.toFixed(1)}°。地點 ${p.lat.toFixed(1)}°, ${p.lon.toFixed(1)}°`;
@@ -114,15 +115,44 @@ function setReferenceFrame(frame:'sun'|'earth'){
 }
 $<HTMLSelectElement>('#referenceFrame').onchange=e=>setReferenceFrame((e.target as HTMLSelectElement).value as 'sun'|'earth');
 $('#revolution').onclick=()=>{setReferenceFrame('sun');speed=100;$<HTMLSelectElement>('#speed').value='100';$<HTMLInputElement>('#pauseAtEvent').checked=false;nextIntercept=null;playing=true;$('#play').textContent='Ⅱ 暫停';$('#scenePause').classList.remove('hidden');setPane('scene');status('地球公轉展示：100天／秒，約3.65秒繞太陽一圈。可按暫停或調整速度。');};
+for(const [id,fraction] of [['perihelion',0],['aphelion',.5]] as const)$('#'+id).onclick=()=>{stop();p.t=Math.floor(p.t/C.year)*C.year+fraction*C.year;setReferenceFrame('sun');save();status('第0天是近日點教學紀元，非實際日期。');};
 $('#quarterYear').onclick=()=>{stop();p.t+=C.year/4;setReferenceFrame('sun');save();};
 $<HTMLInputElement>('#pauseAtEvent').onchange=()=>{nextIntercept=playing&&$<HTMLInputElement>('#pauseAtEvent').checked?nextEvent(p):null;};
 $('#axisClose').onclick=()=>{stop();setReferenceFrame('earth');scene?.view('axis');setPane('scene');status('自轉軸近看：青色為地球自轉軸，灰虛線為黃道面法線，夾角23.44°。');};
 $('#scenePause').onclick=stop;
 $('#top').onclick=()=>scene?.view('top');$('#side').onclick=()=>scene?.view('side');$('#cameraReset').onclick=()=>scene?.view('reset');$('#zoomIn').onclick=()=>scene?.zoom(.8);$('#zoomOut').onclick=()=>scene?.zoom(1.25);
 $('#reset').onclick=()=>{stop();p={...defaults};windowStart=0;speed=1;sky=false;layers=true;$<HTMLSelectElement>('#speed').value='1';$<HTMLInputElement>('#sky').checked=false;$<HTMLInputElement>('#layers').checked=true;$<HTMLSelectElement>('#preset').value='';$<HTMLInputElement>('#pauseAtEvent').checked=true;setReferenceFrame('sun');setMode('phase');setPane('scene');save();status('實驗已重設，作答與證據保留。');};
-$('#help').onclick=()=>{pagedText($('#helpContent'),'本教材為示意幾何模型，不是日期預報。手機使用3D實驗、觀測、設定、地點分區切換；桌面在右側切換。拖曳旋轉、雙指或滾輪縮放，也可用俯視、側視及縮放按鈕。公轉全景觀察地球繞日；看自轉軸可放大23.44°傾角。探究挑戰有預測、證據、解釋、檢核四步，內容自動保存。長文字可前後分段，證據可逐筆翻頁。地面可見性以高度文字為準。月食紅色僅為大氣折射概念著色。實際看太陽須使用合適安全觀測方法。',105);$<HTMLDialogElement>('#helpDialog').showModal();};$('#closeHelp').onclick=()=>$<HTMLDialogElement>('#helpDialog').close();
+$('#help').onclick=()=>{pagedText($('#helpContent'),'全螢幕展示只保留日地月，可拖曳旋轉、縮放；空白鍵或雙擊播放／暫停，左右方向鍵微調時間，Esc返回。本教材為示意幾何模型，不是日期預報。手機使用3D實驗、觀測、設定、地點分區切換；桌面在右側切換。拖曳旋轉、雙指或滾輪縮放，也可用俯視、側視及縮放按鈕。公轉全景觀察地球繞日；看自轉軸可放大23.44°傾角。探究挑戰有預測、證據、解釋、檢核四步，內容自動保存。長文字可前後分段，證據可逐筆翻頁。地面可見性以高度文字為準。月食紅色僅為大氣折射概念著色。實際看太陽須使用合適安全觀測方法。',105);$<HTMLDialogElement>('#helpDialog').showModal();};$('#closeHelp').onclick=()=>$<HTMLDialogElement>('#helpDialog').close();
 $('#clear').onclick=()=>$<HTMLDialogElement>('#clearDialog').showModal();$('#cancelClear').onclick=()=>$<HTMLDialogElement>('#clearDialog').close();$('#confirmClear').onclick=()=>{answers=tasks.map(fresh);save();renderTask();$<HTMLDialogElement>('#clearDialog').close();status('全部作答已清除。');};
 $('#json').onclick=()=>download('json');$('#csv').onclick=()=>download('csv');
+let presentation=false,nativeRequested=false;
+let restorePresentation:(()=>void)|null=null;
+async function enterPresentation(){
+ if(presentation)return;
+ if(!scene){status('此裝置無法使用3D全螢幕展示。');return;}
+ const previous={mode,pane:activePane,frame:scene.frame,position:scene.camera.position.clone(),target:scene.controls.target.clone()};
+ restorePresentation=()=>{setMode(previous.mode);setPane(previous.pane);scene?.setFrame(previous.frame);$<HTMLSelectElement>('#referenceFrame').value=previous.frame;$('#frameLabel').textContent=previous.frame==='sun'?'太陽置中・公轉全景':'地球置中・月相近看';requestAnimationFrame(()=>{scene?.resize();scene?.camera.position.copy(previous.position);scene?.controls.target.copy(previous.target);scene?.controls.update();update();});};
+ setMode('phase');setPane('scene');setReferenceFrame('sun');presentation=true;document.body.classList.add('presentation');scene.setPresentation(true);
+ const host=$('#space');host.tabIndex=0;host.focus({preventScroll:true});
+ if(host.requestFullscreen){nativeRequested=true;try{await host.requestFullscreen();}catch{nativeRequested=false;}}
+ requestAnimationFrame(()=>scene?.resize());
+}
+function finishPresentation(){
+ if(!presentation)return;presentation=false;nativeRequested=false;document.body.classList.remove('presentation');scene?.setPresentation(false);restorePresentation?.();restorePresentation=null;save();$('#fullscreen').focus({preventScroll:true});
+}
+async function exitPresentation(){if(document.fullscreenElement===$('#space')){try{await document.exitFullscreen();}finally{finishPresentation();}}else finishPresentation();}
+$('#fullscreen').onclick=()=>void enterPresentation();
+document.addEventListener('fullscreenchange',()=>{if(presentation&&nativeRequested&&!document.fullscreenElement)finishPresentation();});
+document.addEventListener('keydown',event=>{
+ if(!presentation||event.altKey||event.ctrlKey||event.metaKey)return;
+ if(event.key==='Escape'){event.preventDefault();void exitPresentation();}
+ else if(event.code==='Space'){event.preventDefault();$('#play').click();}
+ else if(event.key==='ArrowRight'||event.key==='ArrowLeft'){event.preventDefault();stop();p.t+=event.key==='ArrowRight'?.25:-.25;update();}
+ else if(event.key==='+'||event.key==='='){event.preventDefault();scene?.zoom(.8);}
+ else if(event.key==='-'){event.preventDefault();scene?.zoom(1.25);}
+ else if(event.key.toLowerCase()==='r'){event.preventDefault();scene?.view('reset');}
+});
+$('#space').addEventListener('dblclick',()=>{if(presentation)$('#play').click();});
 window.addEventListener('resize',()=>update());window.addEventListener('beforeunload',save);
 let last=performance.now(),paint=0;const frameDurations:number[]=[];
 function frame(now:number){const dt=Math.min((now-last)/1000,.1);frameDurations.push(now-last);if(frameDurations.length>600)frameDurations.shift();last=now;
@@ -130,5 +160,5 @@ function frame(now:number){const dt=Math.min((now-last)/1000,.1);frameDurations.
  if(playing&&now-paint>33){update();paint=now;}scene?.render();requestAnimationFrame(frame);
 }
 // Read-only diagnostics used by reproducible browser acceptance tests.
-Object.assign(window,{labDiagnostics:()=>({p:{...p},snapshot:snapshot(p),answers:JSON.parse(JSON.stringify(answers)),playing,storageOK,webgl:!!scene,ui:{mode,pane:activePane,step:uiStep},display:scene?{frame:scene.frame,layout:scene.layout,axisVisible:scene.axisGroup.visible,shadowWireframes:0}:null,renderScale:scene?.quality,drawCalls:scene?.renderer.info.render.calls,frames:frameDurations.length,fps:frameDurations.length?1000/(frameDurations.reduce((a,b)=>a+b,0)/frameDurations.length):0})});
+Object.assign(window,{labDiagnostics:()=>({p:{...p},snapshot:snapshot(p),answers:JSON.parse(JSON.stringify(answers)),playing,storageOK,webgl:!!scene,ui:{mode,pane:activePane,step:uiStep,presentation},display:scene?{frame:scene.frame,layout:scene.layout,axisVisible:scene.axisGroup.visible,orbitVisible:scene.orbit.visible,earthOrbitVisible:scene.earthOrbit.visible,markerVisible:scene.marker.visible,starsVisible:scene.stars.visible,shadowWireframes:0}:null,renderScale:scene?.quality,drawCalls:scene?.renderer.info.render.calls,frames:frameDurations.length,fps:frameDurations.length?1000/(frameDurations.reduce((a,b)=>a+b,0)/frameDurations.length):0})});
 renderTask();update();if(!storageOK)status('本機儲存無法使用，請匯出作答。');requestAnimationFrame(frame);

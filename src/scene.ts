@@ -1,10 +1,10 @@
 import * as T from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
-import {positions,observer,sub,unit,dot,cross,mul,add,C,rad,type V,type Params,lunar} from './model';
+import {earthOrbit,positions,observer,sub,unit,dot,cross,mul,add,C,rad,type V,type Params,lunar} from './model';
 import {displayLayout,type ReferenceFrame} from './display-layout';
 const vec=(v:V)=>new T.Vector3(...v);
 export class SpaceScene {
- renderer:T.WebGLRenderer; scene=new T.Scene(); camera=new T.PerspectiveCamera(42,1,.1,3000); controls:OrbitControls;
+ presentation=false; stars:T.Points; renderer:T.WebGLRenderer; scene=new T.Scene(); camera=new T.PerspectiveCamera(42,1,.1,3000); controls:OrbitControls;
  earth:T.Mesh; moon:T.Mesh; sun:T.Mesh; orbit:T.Line; node:T.Line; earthOrbit:T.Line; axisGroup=new T.Group(); marker:T.Mesh; frame:ReferenceFrame='sun'; layout=displayLayout({t:0,i:5.145,node:0,distance:384400,lat:23.5,lon:121},'sun'); tags:Record<string,HTMLSpanElement>={}; enabled=true; quality=.8; lastRender=performance.now(); slowFrames=0; renderedFrames=0; light=new T.DirectionalLight(0xffe4ad,3);
  constructor(private host:HTMLElement){
  this.renderer=new T.WebGLRenderer({antialias:true});this.renderer.setPixelRatio(Math.min(devicePixelRatio,1.5)*this.quality);this.renderer.setClearColor('#080f22');host.append(this.renderer.domElement);
@@ -21,23 +21,23 @@ export class SpaceScene {
  void main(){vec3 n=normalize(worldNormal);vec3 s=sunRelative-n*6371.0;vec3 m=moonRelative-n*6371.0;float light=max(0.0,dot(n,normalize(s)));float cover=0.0;if(dot(s,m)>0.0){float a=asin(696000.0/length(s)),b=asin(1737.0/length(m)),d=acos(clamp(dot(normalize(s),normalize(m)),-1.0,1.0));cover=overlap(a,b,d);}float continent=sin(bodyNormal.x*13.0)+cos(bodyNormal.y*11.0)+sin(bodyNormal.z*17.0);vec3 base=continent>0.85?vec3(0.35,0.60,0.36):vec3(0.07,0.39,0.58);if(abs(bodyNormal.z)>0.92)base=vec3(0.72,0.83,0.88);gl_FragColor=vec4(base*(0.12+0.88*light*(1.0-cover)),1.0);}`
  }));this.scene.add(this.earth);
  this.moon=new T.Mesh(new T.SphereGeometry(2.5,48,32),new T.ShaderMaterial({
- uniforms:{sunDirection:{value:new T.Vector3(1,0,0)},relative:{value:new T.Vector3()},shadowAxis:{value:new T.Vector3(-1,0,0)}},
+ uniforms:{sunDirection:{value:new T.Vector3(1,0,0)},relative:{value:new T.Vector3()},shadowAxis:{value:new T.Vector3(-1,0,0)},sunDistance:{value:C.au}},
  vertexShader:`varying vec3 worldNormal;varying vec3 bodyNormal;void main(){bodyNormal=normal;worldNormal=normalize(mat3(modelMatrix)*normal);gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`,
- fragmentShader:`varying vec3 worldNormal;varying vec3 bodyNormal;uniform vec3 sunDirection;uniform vec3 relative;uniform vec3 shadowAxis;
- void main(){vec3 n=normalize(worldNormal);vec3 rel=relative+n*1737.0;float x=dot(rel,shadowAxis);float d=length(rel-shadowAxis*x);float ru=6371.0-x*(696000.0-6371.0)/149600000.0;float rp=6371.0+x*(696000.0+6371.0)/149600000.0;float light=0.045+0.85*max(0.0,dot(n,sunDirection));vec3 color=vec3(0.91,0.91,0.87)*light;float texture=0.94+0.06*sin(bodyNormal.x*35.0)*cos(bodyNormal.y*29.0);if(x>0.0&&d<rp){color*=0.65;if(d<ru)color=vec3(light*0.24+0.08,light*0.11,light*0.08);}gl_FragColor=vec4(color*texture,1.0);}`
+ fragmentShader:`varying vec3 worldNormal;varying vec3 bodyNormal;uniform vec3 sunDirection;uniform vec3 relative;uniform vec3 shadowAxis;uniform float sunDistance;
+ void main(){vec3 n=normalize(worldNormal);vec3 rel=relative+n*1737.0;float x=dot(rel,shadowAxis);float d=length(rel-shadowAxis*x);float ru=6371.0-x*(696000.0-6371.0)/sunDistance;float rp=6371.0+x*(696000.0+6371.0)/sunDistance;float light=0.045+0.85*max(0.0,dot(n,sunDirection));vec3 color=vec3(0.91,0.91,0.87)*light;float texture=0.94+0.06*sin(bodyNormal.x*35.0)*cos(bodyNormal.y*29.0);if(x>0.0&&d<rp){color*=0.65;if(d<ru)color=vec3(light*0.24+0.08,light*0.11,light*0.08);}gl_FragColor=vec4(color*texture,1.0);}`
  }));this.scene.add(this.moon);
  this.sun=new T.Mesh(new T.SphereGeometry(16,48,32),new T.MeshBasicMaterial({color:0xffc867}));this.scene.add(this.sun);
- this.orbit=new T.Line(new T.BufferGeometry(),new T.LineBasicMaterial({color:0x557d9e}));this.node=new T.Line(new T.BufferGeometry(),new T.LineDashedMaterial({color:0xffbc68,dashSize:3,gapSize:2}));this.earthOrbit=new T.Line(new T.BufferGeometry().setFromPoints(Array.from({length:181},(_,j)=>new T.Vector3(105*Math.cos(j*Math.PI/90),105*Math.sin(j*Math.PI/90),0))),new T.LineBasicMaterial({color:0x426882}));
+ this.orbit=new T.Line(new T.BufferGeometry(),new T.LineBasicMaterial({color:0x557d9e}));this.node=new T.Line(new T.BufferGeometry(),new T.LineDashedMaterial({color:0xffbc68,dashSize:3,gapSize:2}));this.earthOrbit=new T.Line(new T.BufferGeometry().setFromPoints(Array.from({length:181},(_,j)=>vec(mul(earthOrbit(j*C.year/180).earth,105/C.au)))),new T.LineBasicMaterial({color:0x426882}));
  this.scene.add(this.orbit,this.node,this.earthOrbit,this.axisGroup);
  const axisMaterial=new T.MeshBasicMaterial({color:0x8de9df});
  const pole=new T.Mesh(new T.CylinderGeometry(.18,.18,2,10),axisMaterial);pole.name='axis';pole.quaternion.setFromUnitVectors(new T.Vector3(0,1,0),vec(this.layout.axis));this.axisGroup.add(pole);
  for(const sign of [-1,1]){const tip=new T.Mesh(new T.SphereGeometry(.4,10,10),axisMaterial);tip.name=sign>0?'north':'south';this.axisGroup.add(tip);}
  const normal=new T.Line(new T.BufferGeometry().setFromPoints([new T.Vector3(0,0,0),new T.Vector3(0,0,1)]),new T.LineDashedMaterial({color:0x9ca9bc,dashSize:.08,gapSize:.06}));normal.name='normal';normal.computeLineDistances();this.axisGroup.add(normal);
  const arc=new T.Line(new T.BufferGeometry().setFromPoints(Array.from({length:25},(_,j)=>{const a=j/24*23.44*rad;return new T.Vector3(0,-Math.sin(a)*10,Math.cos(a)*10);})),new T.LineBasicMaterial({color:0xffce7c}));this.axisGroup.add(arc);
- for(const [key,text] of Object.entries({sun:'太陽',earth:'地球',moon:'月球',north:'北',south:'南',tilt:'自轉軸 23.44°'})){const tag=document.createElement('span');tag.className='space-tag '+key;tag.textContent=text;host.append(tag);this.tags[key]=tag;}
+ for(const [key,text] of Object.entries({perihelion:'近日點 1.471億 km',aphelion:'遠日點 1.521億 km',sun:'太陽',earth:'地球',moon:'月球',north:'北',south:'南',tilt:'自轉軸 23.44°'})){const tag=document.createElement('span');tag.className='space-tag '+key;tag.textContent=text;host.append(tag);this.tags[key]=tag;}
  this.marker=new T.Mesh(new T.SphereGeometry(.8,12,12),new T.MeshBasicMaterial({color:0xffee9a}));this.scene.add(this.marker);
  const stars=[];for(let j=0;j<500;j++){const a=j*2.39996,z=1-2*(j+.5)/500,r=Math.sqrt(1-z*z);stars.push(r*Math.cos(a)*700,r*Math.sin(a)*700,z*700);}
- const geo=new T.BufferGeometry();geo.setAttribute('position',new T.Float32BufferAttribute(stars,3));this.scene.add(new T.Points(geo,new T.PointsMaterial({color:0xc1d2ef,size:.8})));
+ const geo=new T.BufferGeometry();geo.setAttribute('position',new T.Float32BufferAttribute(stars,3));this.stars=new T.Points(geo,new T.PointsMaterial({color:0xc1d2ef,size:.8}));this.scene.add(this.stars);
  new ResizeObserver(()=>this.resize()).observe(host);this.resize();
  }
  render(){if(this.enabled){
@@ -52,17 +52,24 @@ export class SpaceScene {
  view(kind:string){if(kind==='axis'){this.camera.position.set(45,-70,45);this.controls.target.set(0,0,0);this.controls.update();return;}this.camera.position.set(...(kind==='top'?[45,0,300]:kind==='side'?[45,-300,8]:[190,-220,190]) as [number,number,number]);this.controls.target.set(0,0,0);this.fit();this.controls.update();}
  zoom(f:number){this.camera.position.sub(this.controls.target).multiplyScalar(f).add(this.controls.target);this.controls.update();}
  setFrame(frame:ReferenceFrame){this.frame=frame;this.view('reset');}
+ setPresentation(on:boolean){
+ this.presentation=on;this.axisGroup.visible=!on;this.marker.visible=!on;this.stars.visible=!on;
+ if(on){this.orbit.visible=false;this.node.visible=false;this.earthOrbit.visible=false;}
+ this.updateTags();
+ }
  updateTags(){
+ if(this.presentation){Object.values(this.tags).forEach(tag=>tag.style.display='none');return;}
+
  const l=this.layout,n=add(l.earth,mul(l.axis,l.axisLength+1)),south=add(l.earth,mul(l.axis,-l.axisLength-1));
- const points:Record<string,V>={sun:add(l.sun,[0,0,this.frame==='sun'?15:20]),earth:add(l.earth,[0,0,-l.earthRadius-4]),moon:add(l.moon,[0,0,5]),north:n,south,tilt:add(l.earth,[7,0,l.axisLength+5])};
- for(const [key,v] of Object.entries(points)){const q=vec(v).project(this.camera),tag=this.tags[key];tag.style.display=q.z<1&&q.z>-1&&(this.frame==='earth'||!['north','south'].includes(key))?'':'none';tag.style.left=((q.x+1)/2*this.host.clientWidth)+'px';tag.style.top=((-q.y+1)/2*this.host.clientHeight)+'px';}
+ const points:Record<string,V>={perihelion:[-105*(1-C.eccentricity),0,-18],aphelion:[105*(1+C.eccentricity),0,-18],sun:add(l.sun,[0,0,this.frame==='sun'?15:20]),earth:add(l.earth,[0,0,-l.earthRadius-4]),moon:add(l.moon,[0,0,5]),north:n,south,tilt:add(l.earth,[7,0,l.axisLength+5])};
+ for(const [key,v] of Object.entries(points)){const q=vec(v).project(this.camera),tag=this.tags[key];tag.style.display=q.z<1&&q.z>-1&&(!['perihelion','aphelion'].includes(key)||this.frame==='sun')&&(this.frame==='earth'||!['north','south'].includes(key))?'':'none';tag.style.left=((q.x+1)/2*this.host.clientWidth)+'px';tag.style.top=((-q.y+1)/2*this.host.clientHeight)+'px';}
  }
  update(p:Params,layers:boolean){
  const pos=positions(p),sd=unit(sub(pos.sun,pos.earth));
  const l=displayLayout(p,this.frame);this.layout=l;
  this.earth.position.copy(vec(l.earth));this.sun.position.copy(vec(l.sun));this.light.position.copy(vec(l.sun));
  this.earth.scale.setScalar(l.bodyScale);this.moon.scale.setScalar(l.bodyScale);this.sun.scale.setScalar(this.frame==='sun'?.75:1);
- this.earthOrbit.visible=this.frame==='sun'&&layers;
+ this.earthOrbit.visible=this.frame==='sun'&&layers&&!this.presentation;
  this.axisGroup.position.copy(vec(l.earth));
  this.axisGroup.getObjectByName('axis')!.scale.set(1,l.axisLength,1);
  this.axisGroup.getObjectByName('north')!.position.copy(vec(mul(l.axis,l.axisLength)));
@@ -70,10 +77,10 @@ export class SpaceScene {
  this.axisGroup.getObjectByName('normal')!.scale.setScalar(l.axisLength);
  const earthMaterial=this.earth.material as T.ShaderMaterial;earthMaterial.uniforms.sunRelative.value.copy(vec(sub(pos.sun,pos.earth)));earthMaterial.uniforms.moonRelative.value.copy(vec(pos.relative));
  this.moon.position.copy(vec(l.moon));this.moon.quaternion.setFromUnitVectors(new T.Vector3(0,0,1),vec(unit(mul(pos.relative,-1))));
- const material=this.moon.material as T.ShaderMaterial;material.uniforms.sunDirection.value.copy(vec(unit(sub(pos.sun,pos.moon))));material.uniforms.relative.value.copy(vec(pos.relative));material.uniforms.shadowAxis.value.copy(vec(mul(sd,-1)));
+ const material=this.moon.material as T.ShaderMaterial;material.uniforms.sunDistance.value=Math.hypot(...pos.earth);material.uniforms.sunDirection.value.copy(vec(unit(sub(pos.sun,pos.moon))));material.uniforms.relative.value.copy(vec(pos.relative));material.uniforms.shadowAxis.value.copy(vec(mul(sd,-1)));
  const pts=[];for(let j=0;j<=180;j++){const a=j*Math.PI/90,n=p.node*rad,i=p.i*rad;pts.push(new T.Vector3(l.moonOrbitRadius*(Math.cos(a)*Math.cos(n)-Math.sin(a)*Math.cos(i)*Math.sin(n)),l.moonOrbitRadius*(Math.cos(a)*Math.sin(n)+Math.sin(a)*Math.cos(i)*Math.cos(n)),l.moonOrbitRadius*Math.sin(a)*Math.sin(i)));}
- this.orbit.visible=layers;this.orbit.position.copy(vec(l.earth));this.orbit.geometry.dispose();this.orbit.geometry=new T.BufferGeometry().setFromPoints(pts);
- this.node.position.copy(vec(l.earth));const nodeRadius=l.moonOrbitRadius*1.2;this.node.geometry.dispose();this.node.geometry=new T.BufferGeometry().setFromPoints([new T.Vector3(-nodeRadius*Math.cos(p.node*rad),-nodeRadius*Math.sin(p.node*rad),0),new T.Vector3(nodeRadius*Math.cos(p.node*rad),nodeRadius*Math.sin(p.node*rad),0)]);this.node.computeLineDistances();this.node.visible=layers;
+ this.orbit.visible=layers&&!this.presentation;this.orbit.position.copy(vec(l.earth));this.orbit.geometry.dispose();this.orbit.geometry=new T.BufferGeometry().setFromPoints(pts);
+ this.node.position.copy(vec(l.earth));const nodeRadius=l.moonOrbitRadius*1.2;this.node.geometry.dispose();this.node.geometry=new T.BufferGeometry().setFromPoints([new T.Vector3(-nodeRadius*Math.cos(p.node*rad),-nodeRadius*Math.sin(p.node*rad),0),new T.Vector3(nodeRadius*Math.cos(p.node*rad),nodeRadius*Math.sin(p.node*rad),0)]);this.node.computeLineDistances();this.node.visible=layers&&!this.presentation;
  const o=observer(p);this.marker.position.copy(vec(add(l.earth,mul(o.up,l.earthRadius+.8))));this.earth.rotation.set(23.44*rad,0,p.t*Math.PI*2/.9972696);
  // No trailing rays or shadow-cone wireframes: eclipses remain on the body shaders.
  }
