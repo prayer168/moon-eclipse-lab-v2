@@ -116,3 +116,7 @@ Playwright報告見 `docs/real-date-report.md`、原始結果 `docs/real-date-pl
 ### 真實月面操作與檢查
 場景工具列「月球近看」可繞月觀察；設定→月面可全亮閱讀、切換地貌名稱及放大地球月面窗，觀測窗亦支援雙擊／Enter。全螢幕保留近看及實際月相HUD。
 `node tests/moon-browser.mjs` 執行月面專項驗收；`node tests/moon-performance.mjs` 單獨執行效能量測。兩者需先啟動Vite。資料來源、鏡像與雜湊見 docs/moon-map-sources.json；可用具Pillow、NumPy的Python執行 tools/build-moon-map.py 重建貼圖。完整驗收見 docs/moon-surface-report.md。
+
+
+## 月面像素修正、黑子與地月近看
+新增地月近看、太陽黑子示意、294KB基本月面與按需4K，以及無地貌的右上月相示意。觀測窗GPU採解析球面，與CPU備援取樣一致；保留6/255門檻。開發伺服器運作時執行 `node tests/moon-pixel-audit.mjs`，報告見 `docs/moon-pixel-fix-report.md`、逐條資料見 `docs/moon-pixel-audit.json`。測試以單一Vite模組入口固定貼圖狀態，避免HMR版本造成兩份載入器。同步資料夾不含node_modules與.git，需先npm ci；dist需透過HTTP伺服器開啟。

@@ -1,0 +1,22 @@
+[
+  {
+    "file": "moon-albedo-low.jpg",
+    "bytes": 114651,
+    "sha256": "c61c8cae52002726e02bbe3a4eefe04f5f1c7975b9509ef857c5453d8a0c54c4"
+  },
+  {
+    "file": "moon-normal-low.png",
+    "bytes": 179755,
+    "sha256": "bfe577f62d71fa688cebf598942c46cd6371fe3e55439135f71fb74254094942"
+  },
+  {
+    "file": "moon-albedo.jpg",
+    "bytes": 2966546,
+    "sha256": "d426d5e12289242fb0eb4efdf41191bb33f65e85a9715fe756eb38a9fc528d17"
+  },
+  {
+    "file": "moon-normal.webp",
+    "bytes": 8910374,
+    "sha256": "4bcf6aa234ab2dbccc2d6aa46277c06e49b4fdeb0d924f6c201a6218b8969e8b"
+  }
+]

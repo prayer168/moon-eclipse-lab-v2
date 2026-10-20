@@ -1,0 +1,42 @@
+{
+  "date": "2026-10-20",
+  "tool": "Playwright 1.56.1",
+  "browser": "141.0.7390.37",
+  "conditions": "Windows desktop headless Chromium; emulated viewports, not physical devices",
+  "checks": [
+    {
+      "name": "NASA分級全球月面及法線載入、無著色器錯誤",
+      "pass": true
+    },
+    {
+      "name": "新月、上弦、滿月、下弦；地球所見與太空月球共用姿態",
+      "pass": true
+    },
+    {
+      "name": "月面全亮僅改外觀，HUD仍顯示實際月相",
+      "pass": true
+    },
+    {
+      "name": "地球月面大型觀測窗與鍵盤操作",
+      "pass": true
+    },
+    {
+      "name": "五尺寸近看、全螢幕、月面設定及觀測窗無捲軸或裁切",
+      "pass": true
+    },
+    {
+      "name": "GPU觀測窗與CPU後備的同位置月面取樣一致",
+      "pass": true
+    },
+    {
+      "name": "月食紅化與月相分離，全亮不改月全食判斷",
+      "pass": true
+    },
+    {
+      "name": "無WebGL仍可查看真實月面與日期",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "consoleErrors": []
+}

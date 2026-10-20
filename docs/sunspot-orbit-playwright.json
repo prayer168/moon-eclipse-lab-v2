@@ -1,0 +1,37 @@
+{
+  "date": "2026-10-20",
+  "browser": "141.0.7390.37",
+  "conditions": "Windows headless Chromium, emulated viewports, network failure injection; not physical devices",
+  "checks": [
+    {
+      "name": "初始只載入約294KB基本月面，不請求4K",
+      "pass": true
+    },
+    {
+      "name": "右上角灰白月相透明無框、鏡頭不改變月相",
+      "pass": true
+    },
+    {
+      "name": "黑子依模擬天數轉動與成長、暫停同步凍結",
+      "pass": true
+    },
+    {
+      "name": "五尺寸地月近看、公轉播放、全螢幕保留完整軌道與RWD",
+      "pass": true
+    },
+    {
+      "name": "放大後才載入4K，原有基本月面與操作不中斷",
+      "pass": true
+    },
+    {
+      "name": "全部月面影像延遲／失敗時，月相示意及公轉仍可操作",
+      "pass": true
+    },
+    {
+      "name": "4K失敗保留NASA基本月面，不阻塞近看",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "shaderErrors": []
+}

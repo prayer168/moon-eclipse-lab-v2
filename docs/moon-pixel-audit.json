@@ -1,0 +1,1765 @@
+{
+  "rows": [
+    {
+      "level": "base",
+      "colorSize": [
+        1024,
+        512
+      ],
+      "normalSize": [
+        512,
+        256
+      ],
+      "t": 0,
+      "phase": "新月",
+      "view": "geocentric",
+      "reading": false,
+      "samples": 812,
+      "maxDifference": 0,
+      "limbMaxDifference": 0,
+      "meanMaxDifference": 0,
+      "oldMeshMaxDifference": 1,
+      "zones": {
+        "lit": {
+          "samples": 0,
+          "max": 0
+        },
+        "dark": {
+          "samples": 732,
+          "max": 0
+        },
+        "terminator": {
+          "samples": 0,
+          "max": 0
+        },
+        "limb": {
+          "samples": 80,
+          "max": 0
+        }
+      },
+      "worst": null
+    },
+    {
+      "level": "base",
+      "colorSize": [
+        1024,
+        512
+      ],
+      "normalSize": [
+        512,
+        256
+      ],
+      "t": 0,
+      "phase": "新月",
+      "view": "geocentric",
+      "reading": true,
+      "samples": 812,
+      "maxDifference": 0,
+      "limbMaxDifference": 0,
+      "meanMaxDifference": 0,
+      "oldMeshMaxDifference": 18,
+      "zones": {
+        "lit": {
+          "samples": 0,
+          "max": 0
+        },
+        "dark": {
+          "samples": 732,
+          "max": 0
+        },
+        "terminator": {
+          "samples": 0,
+          "max": 0
+        },
+        "limb": {
+          "samples": 80,
+          "max": 0
+        }
+      },
+      "worst": null
+    },
+    {
+      "level": "base",
+      "colorSize": [
+        1024,
+        512
+      ],
+      "normalSize": [
+        512,
+        256
+      ],
+      "t": 0,
+      "phase": "新月",
+      "view": "local sky",
+      "reading": false,
+      "samples": 812,
+      "maxDifference": 0,
+      "limbMaxDifference": 0,
+      "meanMaxDifference": 0,
+      "oldMeshMaxDifference": 1,
+      "zones": {
+        "lit": {
+          "samples": 0,
+          "max": 0
+        },
+        "dark": {
+          "samples": 732,
+          "max": 0
+        },
+        "terminator": {
+          "samples": 0,
+          "max": 0
+        },
+        "limb": {
+          "samples": 80,
+          "max": 0
+        }
+      },
+      "worst": null
+    },
+    {
+      "level": "base",
+      "colorSize": [
+        1024,
+        512
+      ],
+      "normalSize": [
+        512,
+        256
+      ],
+      "t": 0,
+      "phase": "新月",
+      "view": "local sky",
+      "reading": true,
+      "samples": 812,
+      "maxDifference": 0,
+      "limbMaxDifference": 0,
+      "meanMaxDifference": 0,
+      "oldMeshMaxDifference": 16,
+      "zones": {
+        "lit": {
+          "samples": 0,
+          "max": 0
+        },
+        "dark": {
+          "samples": 732,
+          "max": 0
+        },
+        "terminator": {
+          "samples": 0,
+          "max": 0
+        },
+        "limb": {
+          "samples": 80,
+          "max": 0
+        }
+      },
+      "worst": null
+    },
+    {
+      "level": "base",
+      "colorSize": [
+        1024,
+        512
+      ],
+      "normalSize": [
+        512,
+        256
+      ],
+      "t": 7.403016978552678,
+      "phase": "上弦月",
+      "view": "geocentric",
+      "reading": false,
+      "samples": 812,
+      "maxDifference": 0,
+      "limbMaxDifference": 0,
+      "meanMaxDifference": 0,
+      "oldMeshMaxDifference": 7,
+      "zones": {
+        "lit": {
+          "samples": 336,
+          "max": 0
+        },
+        "dark": {
+          "samples": 336,
+          "max": 0
+        },
+        "terminator": {
+          "samples": 60,
+          "max": 0
+        },
+        "limb": {
+          "samples": 80,
+          "max": 0
+        }
+      },
+      "worst": null
+    },
+    {
+      "level": "base",
+      "colorSize": [
+        1024,
+        512
+      ],
+      "normalSize": [
+        512,
+        256
+      ],
+      "t": 7.403016978552678,
+      "phase": "上弦月",
+      "view": "geocentric",
+      "reading": true,
+      "samples": 812,
+      "maxDifference": 1,
+      "limbMaxDifference": 0,
+      "meanMaxDifference": 0.0012315270935960591,
+      "oldMeshMaxDifference": 14,
+      "zones": {
+        "lit": {
+          "samples": 336,
+          "max": 1
+        },
+        "dark": {
+          "samples": 336,
+          "max": 0
+        },
+        "terminator": {
+          "samples": 60,
+          "max": 0
+        },
+        "limb": {
+          "samples": 80,
+          "max": 0
+        }
+      },
+      "worst": {
+        "x": 244,
+        "y": 148,
+        "zone": "interior",
+        "expected": [
+          164,
+          161,
+          156
+        ],
+        "actual": [
+          165,
+          162,
+          157
+        ]
+      }
+    },
+    {
+      "level": "base",
+      "colorSize": [
+        1024,
+        512
+      ],
+      "normalSize": [
+        512,
+        256
+      ],
+      "t": 7.403016978552678,
+      "phase": "上弦月",
+      "view": "local sky",
+      "reading": false,
+      "samples": 812,
+      "maxDifference": 0,
+      "limbMaxDifference": 0,
+      "meanMaxDifference": 0,
+      "oldMeshMaxDifference": 8,
+      "zones": {
+        "lit": {
+          "samples": 332,
+          "max": 0
+        },
+        "dark": {
+          "samples": 330,
+          "max": 0
+        },
+        "terminator": {
+          "samples": 70,
+          "max": 0
+        },
+        "limb": {
+          "samples": 80,
+          "max": 0
+        }
+      },
+      "worst": null
+    },
+    {
+      "level": "base",
+      "colorSize": [
+        1024,
+        512
+      ],
+      "normalSize": [
+        512,
+        256
+      ],
+      "t": 7.403016978552678,
+      "phase": "上弦月",
+      "view": "local sky",
+      "reading": true,
+      "samples": 812,
+      "maxDifference": 0,
+      "limbMaxDifference": 0,
+      "meanMaxDifference": 0,
+      "oldMeshMaxDifference": 11,
+      "zones": {
+        "lit": {
+          "samples": 332,
+          "max": 0
+        },
+        "dark": {
+          "samples": 330,
+          "max": 0
+        },
+        "terminator": {
+          "samples": 70,
+          "max": 0
+        },
+        "limb": {
+          "samples": 80,
+          "max": 0
+        }
+      },
+      "worst": null
+    },
+    {
+      "level": "base",
+      "colorSize": [
+        1024,
+        512
+      ],
+      "normalSize": [
+        512,
+        256
+      ],
+      "t": 14.805682187083928,
+      "phase": "滿月",
+      "view": "geocentric",
+      "reading": false,
+      "samples": 812,
+      "maxDifference": 0,
+      "limbMaxDifference": 0,
+      "meanMaxDifference": 0,
+      "oldMeshMaxDifference": 2,
+      "zones": {
+        "lit": {
+          "samples": 732,
+          "max": 0
+        },
+        "dark": {
+          "samples": 0,
+          "max": 0
+        },
+        "terminator": {
+          "samples": 0,
+          "max": 0
+        },
+        "limb": {
+          "samples": 80,
+          "max": 0
+        }
+      },
+      "worst": null
+    },
+    {
+      "level": "base",
+      "colorSize": [
+        1024,
+        512
+      ],
+      "normalSize": [
+        512,
+        256
+      ],
+      "t": 14.805682187083928,
+      "phase": "滿月",
+      "view": "geocentric",
+      "reading": true,
+      "samples": 812,
+      "maxDifference": 0,
+      "limbMaxDifference": 0,
+      "meanMaxDifference": 0,
+      "oldMeshMaxDifference": 13,
+      "zones": {
+        "lit": {
+          "samples": 732,
+          "max": 0
+        },
+        "dark": {
+          "samples": 0,
+          "max": 0
+        },
+        "terminator": {
+          "samples": 0,
+          "max": 0
+        },
+        "limb": {
+          "samples": 80,
+          "max": 0
+        }
+      },
+      "worst": null
+    },
+    {
+      "level": "base",
+      "colorSize": [
+        1024,
+        512
+      ],
+      "normalSize": [
+        512,
+        256
+      ],
+      "t": 14.805682187083928,
+      "phase": "滿月",
+      "view": "local sky",
+      "reading": false,
+      "samples": 812,
+      "maxDifference": 0,
+      "limbMaxDifference": 0,
+      "meanMaxDifference": 0,
+      "oldMeshMaxDifference": 6,
+      "zones": {
+        "lit": {
+          "samples": 732,
+          "max": 0
+        },
+        "dark": {
+          "samples": 0,
+          "max": 0
+        },
+        "terminator": {
+          "samples": 0,
+          "max": 0
+        },
+        "limb": {
+          "samples": 80,
+          "max": 0
+        }
+      },
+      "worst": null
+    },
+    {
+      "level": "base",
+      "colorSize": [
+        1024,
+        512
+      ],
+      "normalSize": [
+        512,
+        256
+      ],
+      "t": 14.805682187083928,
+      "phase": "滿月",
+      "view": "local sky",
+      "reading": true,
+      "samples": 812,
+      "maxDifference": 0,
+      "limbMaxDifference": 0,
+      "meanMaxDifference": 0,
+      "oldMeshMaxDifference": 10,
+      "zones": {
+        "lit": {
+          "samples": 732,
+          "max": 0
+        },
+        "dark": {
+          "samples": 0,
+          "max": 0
+        },
+        "terminator": {
+          "samples": 0,
+          "max": 0
+        },
+        "limb": {
+          "samples": 80,
+          "max": 0
+        }
+      },
+      "worst": null
+    },
+    {
+      "level": "base",
+      "colorSize": [
+        1024,
+        512
+      ],
+      "normalSize": [
+        512,
+        256
+      ],
+      "t": 22.207651182317086,
+      "phase": "下弦月",
+      "view": "geocentric",
+      "reading": false,
+      "samples": 812,
+      "maxDifference": 0,
+      "limbMaxDifference": 0,
+      "meanMaxDifference": 0,
+      "oldMeshMaxDifference": 6,
+      "zones": {
+        "lit": {
+          "samples": 336,
+          "max": 0
+        },
+        "dark": {
+          "samples": 336,
+          "max": 0
+        },
+        "terminator": {
+          "samples": 60,
+          "max": 0
+        },
+        "limb": {
+          "samples": 80,
+          "max": 0
+        }
+      },
+      "worst": null
+    },
+    {
+      "level": "base",
+      "colorSize": [
+        1024,
+        512
+      ],
+      "normalSize": [
+        512,
+        256
+      ],
+      "t": 22.207651182317086,
+      "phase": "下弦月",
+      "view": "geocentric",
+      "reading": true,
+      "samples": 812,
+      "maxDifference": 0,
+      "limbMaxDifference": 0,
+      "meanMaxDifference": 0,
+      "oldMeshMaxDifference": 9,
+      "zones": {
+        "lit": {
+          "samples": 336,
+          "max": 0
+        },
+        "dark": {
+          "samples": 336,
+          "max": 0
+        },
+        "terminator": {
+          "samples": 60,
+          "max": 0
+        },
+        "limb": {
+          "samples": 80,
+          "max": 0
+        }
+      },
+      "worst": null
+    },
+    {
+      "level": "base",
+      "colorSize": [
+        1024,
+        512
+      ],
+      "normalSize": [
+        512,
+        256
+      ],
+      "t": 22.207651182317086,
+      "phase": "下弦月",
+      "view": "local sky",
+      "reading": false,
+      "samples": 812,
+      "maxDifference": 0,
+      "limbMaxDifference": 0,
+      "meanMaxDifference": 0,
+      "oldMeshMaxDifference": 4,
+      "zones": {
+        "lit": {
+          "samples": 323,
+          "max": 0
+        },
+        "dark": {
+          "samples": 333,
+          "max": 0
+        },
+        "terminator": {
+          "samples": 76,
+          "max": 0
+        },
+        "limb": {
+          "samples": 80,
+          "max": 0
+        }
+      },
+      "worst": null
+    },
+    {
+      "level": "base",
+      "colorSize": [
+        1024,
+        512
+      ],
+      "normalSize": [
+        512,
+        256
+      ],
+      "t": 22.207651182317086,
+      "phase": "下弦月",
+      "view": "local sky",
+      "reading": true,
+      "samples": 812,
+      "maxDifference": 0,
+      "limbMaxDifference": 0,
+      "meanMaxDifference": 0,
+      "oldMeshMaxDifference": 9,
+      "zones": {
+        "lit": {
+          "samples": 323,
+          "max": 0
+        },
+        "dark": {
+          "samples": 333,
+          "max": 0
+        },
+        "terminator": {
+          "samples": 76,
+          "max": 0
+        },
+        "limb": {
+          "samples": 80,
+          "max": 0
+        }
+      },
+      "worst": null
+    },
+    {
+      "level": "base",
+      "colorSize": [
+        1024,
+        512
+      ],
+      "normalSize": [
+        512,
+        256
+      ],
+      "t": 29.608593929716307,
+      "phase": "新月",
+      "view": "geocentric",
+      "reading": false,
+      "samples": 812,
+      "maxDifference": 1,
+      "limbMaxDifference": 1,
+      "meanMaxDifference": 0.0012315270935960591,
+      "oldMeshMaxDifference": 1,
+      "zones": {
+        "lit": {
+          "samples": 0,
+          "max": 0
+        },
+        "dark": {
+          "samples": 732,
+          "max": 0
+        },
+        "terminator": {
+          "samples": 0,
+          "max": 0
+        },
+        "limb": {
+          "samples": 80,
+          "max": 1
+        }
+      },
+      "worst": {
+        "x": 108,
+        "y": 4,
+        "zone": "limb",
+        "expected": [
+          5,
+          5,
+          4
+        ],
+        "actual": [
+          5,
+          4,
+          4
+        ]
+      }
+    },
+    {
+      "level": "base",
+      "colorSize": [
+        1024,
+        512
+      ],
+      "normalSize": [
+        512,
+        256
+      ],
+      "t": 29.608593929716307,
+      "phase": "新月",
+      "view": "geocentric",
+      "reading": true,
+      "samples": 812,
+      "maxDifference": 0,
+      "limbMaxDifference": 0,
+      "meanMaxDifference": 0,
+      "oldMeshMaxDifference": 11,
+      "zones": {
+        "lit": {
+          "samples": 0,
+          "max": 0
+        },
+        "dark": {
+          "samples": 732,
+          "max": 0
+        },
+        "terminator": {
+          "samples": 0,
+          "max": 0
+        },
+        "limb": {
+          "samples": 80,
+          "max": 0
+        }
+      },
+      "worst": null
+    },
+    {
+      "level": "base",
+      "colorSize": [
+        1024,
+        512
+      ],
+      "normalSize": [
+        512,
+        256
+      ],
+      "t": 29.608593929716307,
+      "phase": "新月",
+      "view": "local sky",
+      "reading": false,
+      "samples": 812,
+      "maxDifference": 0,
+      "limbMaxDifference": 0,
+      "meanMaxDifference": 0,
+      "oldMeshMaxDifference": 7,
+      "zones": {
+        "lit": {
+          "samples": 0,
+          "max": 0
+        },
+        "dark": {
+          "samples": 732,
+          "max": 0
+        },
+        "terminator": {
+          "samples": 0,
+          "max": 0
+        },
+        "limb": {
+          "samples": 80,
+          "max": 0
+        }
+      },
+      "worst": null
+    },
+    {
+      "level": "base",
+      "colorSize": [
+        1024,
+        512
+      ],
+      "normalSize": [
+        512,
+        256
+      ],
+      "t": 29.608593929716307,
+      "phase": "新月",
+      "view": "local sky",
+      "reading": true,
+      "samples": 812,
+      "maxDifference": 0,
+      "limbMaxDifference": 0,
+      "meanMaxDifference": 0,
+      "oldMeshMaxDifference": 8,
+      "zones": {
+        "lit": {
+          "samples": 0,
+          "max": 0
+        },
+        "dark": {
+          "samples": 732,
+          "max": 0
+        },
+        "terminator": {
+          "samples": 0,
+          "max": 0
+        },
+        "limb": {
+          "samples": 80,
+          "max": 0
+        }
+      },
+      "worst": null
+    },
+    {
+      "level": "4k",
+      "colorSize": [
+        4096,
+        2048
+      ],
+      "normalSize": [
+        4096,
+        2048
+      ],
+      "t": 0,
+      "phase": "新月",
+      "view": "geocentric",
+      "reading": false,
+      "samples": 812,
+      "maxDifference": 0,
+      "limbMaxDifference": 0,
+      "meanMaxDifference": 0,
+      "oldMeshMaxDifference": 25,
+      "zones": {
+        "lit": {
+          "samples": 0,
+          "max": 0
+        },
+        "dark": {
+          "samples": 732,
+          "max": 0
+        },
+        "terminator": {
+          "samples": 0,
+          "max": 0
+        },
+        "limb": {
+          "samples": 80,
+          "max": 0
+        }
+      },
+      "worst": null
+    },
+    {
+      "level": "4k",
+      "colorSize": [
+        4096,
+        2048
+      ],
+      "normalSize": [
+        4096,
+        2048
+      ],
+      "t": 0,
+      "phase": "新月",
+      "view": "geocentric",
+      "reading": true,
+      "samples": 812,
+      "maxDifference": 1,
+      "limbMaxDifference": 1,
+      "meanMaxDifference": 0.0012315270935960591,
+      "oldMeshMaxDifference": 53,
+      "zones": {
+        "lit": {
+          "samples": 0,
+          "max": 0
+        },
+        "dark": {
+          "samples": 732,
+          "max": 0
+        },
+        "terminator": {
+          "samples": 0,
+          "max": 0
+        },
+        "limb": {
+          "samples": 80,
+          "max": 1
+        }
+      },
+      "worst": {
+        "x": 12,
+        "y": 180,
+        "zone": "limb",
+        "expected": [
+          240,
+          243,
+          242
+        ],
+        "actual": [
+          240,
+          243,
+          241
+        ]
+      }
+    },
+    {
+      "level": "4k",
+      "colorSize": [
+        4096,
+        2048
+      ],
+      "normalSize": [
+        4096,
+        2048
+      ],
+      "t": 0,
+      "phase": "新月",
+      "view": "local sky",
+      "reading": false,
+      "samples": 812,
+      "maxDifference": 0,
+      "limbMaxDifference": 0,
+      "meanMaxDifference": 0,
+      "oldMeshMaxDifference": 12,
+      "zones": {
+        "lit": {
+          "samples": 0,
+          "max": 0
+        },
+        "dark": {
+          "samples": 732,
+          "max": 0
+        },
+        "terminator": {
+          "samples": 0,
+          "max": 0
+        },
+        "limb": {
+          "samples": 80,
+          "max": 0
+        }
+      },
+      "worst": null
+    },
+    {
+      "level": "4k",
+      "colorSize": [
+        4096,
+        2048
+      ],
+      "normalSize": [
+        4096,
+        2048
+      ],
+      "t": 0,
+      "phase": "新月",
+      "view": "local sky",
+      "reading": true,
+      "samples": 812,
+      "maxDifference": 1,
+      "limbMaxDifference": 1,
+      "meanMaxDifference": 0.0012315270935960591,
+      "oldMeshMaxDifference": 57,
+      "zones": {
+        "lit": {
+          "samples": 0,
+          "max": 0
+        },
+        "dark": {
+          "samples": 732,
+          "max": 0
+        },
+        "terminator": {
+          "samples": 0,
+          "max": 0
+        },
+        "limb": {
+          "samples": 80,
+          "max": 1
+        }
+      },
+      "worst": {
+        "x": 148,
+        "y": 4,
+        "zone": "limb",
+        "expected": [
+          166,
+          165,
+          157
+        ],
+        "actual": [
+          166,
+          164,
+          157
+        ]
+      }
+    },
+    {
+      "level": "4k",
+      "colorSize": [
+        4096,
+        2048
+      ],
+      "normalSize": [
+        4096,
+        2048
+      ],
+      "t": 7.403016978552678,
+      "phase": "上弦月",
+      "view": "geocentric",
+      "reading": false,
+      "samples": 812,
+      "maxDifference": 1,
+      "limbMaxDifference": 0,
+      "meanMaxDifference": 0.0012315270935960591,
+      "oldMeshMaxDifference": 21,
+      "zones": {
+        "lit": {
+          "samples": 336,
+          "max": 1
+        },
+        "dark": {
+          "samples": 336,
+          "max": 0
+        },
+        "terminator": {
+          "samples": 60,
+          "max": 0
+        },
+        "limb": {
+          "samples": 80,
+          "max": 0
+        }
+      },
+      "worst": {
+        "x": 244,
+        "y": 100,
+        "zone": "interior",
+        "expected": [
+          111,
+          110,
+          107
+        ],
+        "actual": [
+          111,
+          110,
+          106
+        ]
+      }
+    },
+    {
+      "level": "4k",
+      "colorSize": [
+        4096,
+        2048
+      ],
+      "normalSize": [
+        4096,
+        2048
+      ],
+      "t": 7.403016978552678,
+      "phase": "上弦月",
+      "view": "geocentric",
+      "reading": true,
+      "samples": 812,
+      "maxDifference": 1,
+      "limbMaxDifference": 0,
+      "meanMaxDifference": 0.0012315270935960591,
+      "oldMeshMaxDifference": 28,
+      "zones": {
+        "lit": {
+          "samples": 336,
+          "max": 1
+        },
+        "dark": {
+          "samples": 336,
+          "max": 0
+        },
+        "terminator": {
+          "samples": 60,
+          "max": 0
+        },
+        "limb": {
+          "samples": 80,
+          "max": 0
+        }
+      },
+      "worst": {
+        "x": 180,
+        "y": 148,
+        "zone": "interior",
+        "expected": [
+          155,
+          152,
+          147
+        ],
+        "actual": [
+          156,
+          153,
+          147
+        ]
+      }
+    },
+    {
+      "level": "4k",
+      "colorSize": [
+        4096,
+        2048
+      ],
+      "normalSize": [
+        4096,
+        2048
+      ],
+      "t": 7.403016978552678,
+      "phase": "上弦月",
+      "view": "local sky",
+      "reading": false,
+      "samples": 812,
+      "maxDifference": 1,
+      "limbMaxDifference": 0,
+      "meanMaxDifference": 0.0012315270935960591,
+      "oldMeshMaxDifference": 19,
+      "zones": {
+        "lit": {
+          "samples": 332,
+          "max": 1
+        },
+        "dark": {
+          "samples": 330,
+          "max": 0
+        },
+        "terminator": {
+          "samples": 70,
+          "max": 0
+        },
+        "limb": {
+          "samples": 80,
+          "max": 0
+        }
+      },
+      "worst": {
+        "x": 172,
+        "y": 228,
+        "zone": "interior",
+        "expected": [
+          73,
+          72,
+          69
+        ],
+        "actual": [
+          73,
+          72,
+          68
+        ]
+      }
+    },
+    {
+      "level": "4k",
+      "colorSize": [
+        4096,
+        2048
+      ],
+      "normalSize": [
+        4096,
+        2048
+      ],
+      "t": 7.403016978552678,
+      "phase": "上弦月",
+      "view": "local sky",
+      "reading": true,
+      "samples": 812,
+      "maxDifference": 0,
+      "limbMaxDifference": 0,
+      "meanMaxDifference": 0,
+      "oldMeshMaxDifference": 22,
+      "zones": {
+        "lit": {
+          "samples": 332,
+          "max": 0
+        },
+        "dark": {
+          "samples": 330,
+          "max": 0
+        },
+        "terminator": {
+          "samples": 70,
+          "max": 0
+        },
+        "limb": {
+          "samples": 80,
+          "max": 0
+        }
+      },
+      "worst": null
+    },
+    {
+      "level": "4k",
+      "colorSize": [
+        4096,
+        2048
+      ],
+      "normalSize": [
+        4096,
+        2048
+      ],
+      "t": 14.805682187083928,
+      "phase": "滿月",
+      "view": "geocentric",
+      "reading": false,
+      "samples": 812,
+      "maxDifference": 0,
+      "limbMaxDifference": 0,
+      "meanMaxDifference": 0,
+      "oldMeshMaxDifference": 8,
+      "zones": {
+        "lit": {
+          "samples": 732,
+          "max": 0
+        },
+        "dark": {
+          "samples": 0,
+          "max": 0
+        },
+        "terminator": {
+          "samples": 0,
+          "max": 0
+        },
+        "limb": {
+          "samples": 80,
+          "max": 0
+        }
+      },
+      "worst": null
+    },
+    {
+      "level": "4k",
+      "colorSize": [
+        4096,
+        2048
+      ],
+      "normalSize": [
+        4096,
+        2048
+      ],
+      "t": 14.805682187083928,
+      "phase": "滿月",
+      "view": "geocentric",
+      "reading": true,
+      "samples": 812,
+      "maxDifference": 0,
+      "limbMaxDifference": 0,
+      "meanMaxDifference": 0,
+      "oldMeshMaxDifference": 26,
+      "zones": {
+        "lit": {
+          "samples": 732,
+          "max": 0
+        },
+        "dark": {
+          "samples": 0,
+          "max": 0
+        },
+        "terminator": {
+          "samples": 0,
+          "max": 0
+        },
+        "limb": {
+          "samples": 80,
+          "max": 0
+        }
+      },
+      "worst": null
+    },
+    {
+      "level": "4k",
+      "colorSize": [
+        4096,
+        2048
+      ],
+      "normalSize": [
+        4096,
+        2048
+      ],
+      "t": 14.805682187083928,
+      "phase": "滿月",
+      "view": "local sky",
+      "reading": false,
+      "samples": 812,
+      "maxDifference": 0,
+      "limbMaxDifference": 0,
+      "meanMaxDifference": 0,
+      "oldMeshMaxDifference": 19,
+      "zones": {
+        "lit": {
+          "samples": 732,
+          "max": 0
+        },
+        "dark": {
+          "samples": 0,
+          "max": 0
+        },
+        "terminator": {
+          "samples": 0,
+          "max": 0
+        },
+        "limb": {
+          "samples": 80,
+          "max": 0
+        }
+      },
+      "worst": null
+    },
+    {
+      "level": "4k",
+      "colorSize": [
+        4096,
+        2048
+      ],
+      "normalSize": [
+        4096,
+        2048
+      ],
+      "t": 14.805682187083928,
+      "phase": "滿月",
+      "view": "local sky",
+      "reading": true,
+      "samples": 812,
+      "maxDifference": 1,
+      "limbMaxDifference": 0,
+      "meanMaxDifference": 0.0012315270935960591,
+      "oldMeshMaxDifference": 31,
+      "zones": {
+        "lit": {
+          "samples": 732,
+          "max": 1
+        },
+        "dark": {
+          "samples": 0,
+          "max": 0
+        },
+        "terminator": {
+          "samples": 0,
+          "max": 0
+        },
+        "limb": {
+          "samples": 80,
+          "max": 0
+        }
+      },
+      "worst": {
+        "x": 124,
+        "y": 44,
+        "zone": "interior",
+        "expected": [
+          107,
+          102,
+          96
+        ],
+        "actual": [
+          106,
+          102,
+          96
+        ]
+      }
+    },
+    {
+      "level": "4k",
+      "colorSize": [
+        4096,
+        2048
+      ],
+      "normalSize": [
+        4096,
+        2048
+      ],
+      "t": 22.207651182317086,
+      "phase": "下弦月",
+      "view": "geocentric",
+      "reading": false,
+      "samples": 812,
+      "maxDifference": 1,
+      "limbMaxDifference": 0,
+      "meanMaxDifference": 0.0012315270935960591,
+      "oldMeshMaxDifference": 18,
+      "zones": {
+        "lit": {
+          "samples": 336,
+          "max": 1
+        },
+        "dark": {
+          "samples": 336,
+          "max": 0
+        },
+        "terminator": {
+          "samples": 60,
+          "max": 0
+        },
+        "limb": {
+          "samples": 80,
+          "max": 0
+        }
+      },
+      "worst": {
+        "x": 100,
+        "y": 220,
+        "zone": "interior",
+        "expected": [
+          16,
+          16,
+          16
+        ],
+        "actual": [
+          16,
+          17,
+          16
+        ]
+      }
+    },
+    {
+      "level": "4k",
+      "colorSize": [
+        4096,
+        2048
+      ],
+      "normalSize": [
+        4096,
+        2048
+      ],
+      "t": 22.207651182317086,
+      "phase": "下弦月",
+      "view": "geocentric",
+      "reading": true,
+      "samples": 812,
+      "maxDifference": 1,
+      "limbMaxDifference": 0,
+      "meanMaxDifference": 0.0024630541871921183,
+      "oldMeshMaxDifference": 16,
+      "zones": {
+        "lit": {
+          "samples": 336,
+          "max": 0
+        },
+        "dark": {
+          "samples": 336,
+          "max": 1
+        },
+        "terminator": {
+          "samples": 60,
+          "max": 0
+        },
+        "limb": {
+          "samples": 80,
+          "max": 0
+        }
+      },
+      "worst": {
+        "x": 180,
+        "y": 44,
+        "zone": "interior",
+        "expected": [
+          126,
+          123,
+          116
+        ],
+        "actual": [
+          126,
+          122,
+          116
+        ]
+      }
+    },
+    {
+      "level": "4k",
+      "colorSize": [
+        4096,
+        2048
+      ],
+      "normalSize": [
+        4096,
+        2048
+      ],
+      "t": 22.207651182317086,
+      "phase": "下弦月",
+      "view": "local sky",
+      "reading": false,
+      "samples": 812,
+      "maxDifference": 1,
+      "limbMaxDifference": 1,
+      "meanMaxDifference": 0.0012315270935960591,
+      "oldMeshMaxDifference": 25,
+      "zones": {
+        "lit": {
+          "samples": 323,
+          "max": 0
+        },
+        "dark": {
+          "samples": 333,
+          "max": 0
+        },
+        "terminator": {
+          "samples": 76,
+          "max": 0
+        },
+        "limb": {
+          "samples": 80,
+          "max": 1
+        }
+      },
+      "worst": {
+        "x": 12,
+        "y": 180,
+        "zone": "limb",
+        "expected": [
+          83,
+          81,
+          78
+        ],
+        "actual": [
+          83,
+          82,
+          78
+        ]
+      }
+    },
+    {
+      "level": "4k",
+      "colorSize": [
+        4096,
+        2048
+      ],
+      "normalSize": [
+        4096,
+        2048
+      ],
+      "t": 22.207651182317086,
+      "phase": "下弦月",
+      "view": "local sky",
+      "reading": true,
+      "samples": 812,
+      "maxDifference": 1,
+      "limbMaxDifference": 0,
+      "meanMaxDifference": 0.0012315270935960591,
+      "oldMeshMaxDifference": 22,
+      "zones": {
+        "lit": {
+          "samples": 323,
+          "max": 0
+        },
+        "dark": {
+          "samples": 333,
+          "max": 1
+        },
+        "terminator": {
+          "samples": 76,
+          "max": 0
+        },
+        "limb": {
+          "samples": 80,
+          "max": 0
+        }
+      },
+      "worst": {
+        "x": 244,
+        "y": 132,
+        "zone": "interior",
+        "expected": [
+          176,
+          175,
+          170
+        ],
+        "actual": [
+          175,
+          174,
+          169
+        ]
+      }
+    },
+    {
+      "level": "4k",
+      "colorSize": [
+        4096,
+        2048
+      ],
+      "normalSize": [
+        4096,
+        2048
+      ],
+      "t": 29.608593929716307,
+      "phase": "新月",
+      "view": "geocentric",
+      "reading": false,
+      "samples": 812,
+      "maxDifference": 1,
+      "limbMaxDifference": 1,
+      "meanMaxDifference": 0.0012315270935960591,
+      "oldMeshMaxDifference": 9,
+      "zones": {
+        "lit": {
+          "samples": 0,
+          "max": 0
+        },
+        "dark": {
+          "samples": 732,
+          "max": 0
+        },
+        "terminator": {
+          "samples": 0,
+          "max": 0
+        },
+        "limb": {
+          "samples": 80,
+          "max": 1
+        }
+      },
+      "worst": {
+        "x": 108,
+        "y": 4,
+        "zone": "limb",
+        "expected": [
+          5,
+          5,
+          4
+        ],
+        "actual": [
+          5,
+          4,
+          4
+        ]
+      }
+    },
+    {
+      "level": "4k",
+      "colorSize": [
+        4096,
+        2048
+      ],
+      "normalSize": [
+        4096,
+        2048
+      ],
+      "t": 29.608593929716307,
+      "phase": "新月",
+      "view": "geocentric",
+      "reading": true,
+      "samples": 812,
+      "maxDifference": 0,
+      "limbMaxDifference": 0,
+      "meanMaxDifference": 0,
+      "oldMeshMaxDifference": 55,
+      "zones": {
+        "lit": {
+          "samples": 0,
+          "max": 0
+        },
+        "dark": {
+          "samples": 732,
+          "max": 0
+        },
+        "terminator": {
+          "samples": 0,
+          "max": 0
+        },
+        "limb": {
+          "samples": 80,
+          "max": 0
+        }
+      },
+      "worst": null
+    },
+    {
+      "level": "4k",
+      "colorSize": [
+        4096,
+        2048
+      ],
+      "normalSize": [
+        4096,
+        2048
+      ],
+      "t": 29.608593929716307,
+      "phase": "新月",
+      "view": "local sky",
+      "reading": false,
+      "samples": 812,
+      "maxDifference": 0,
+      "limbMaxDifference": 0,
+      "meanMaxDifference": 0,
+      "oldMeshMaxDifference": 15,
+      "zones": {
+        "lit": {
+          "samples": 0,
+          "max": 0
+        },
+        "dark": {
+          "samples": 732,
+          "max": 0
+        },
+        "terminator": {
+          "samples": 0,
+          "max": 0
+        },
+        "limb": {
+          "samples": 80,
+          "max": 0
+        }
+      },
+      "worst": null
+    },
+    {
+      "level": "4k",
+      "colorSize": [
+        4096,
+        2048
+      ],
+      "normalSize": [
+        4096,
+        2048
+      ],
+      "t": 29.608593929716307,
+      "phase": "新月",
+      "view": "local sky",
+      "reading": true,
+      "samples": 812,
+      "maxDifference": 1,
+      "limbMaxDifference": 1,
+      "meanMaxDifference": 0.0012315270935960591,
+      "oldMeshMaxDifference": 26,
+      "zones": {
+        "lit": {
+          "samples": 0,
+          "max": 0
+        },
+        "dark": {
+          "samples": 732,
+          "max": 0
+        },
+        "terminator": {
+          "samples": 0,
+          "max": 0
+        },
+        "limb": {
+          "samples": 80,
+          "max": 1
+        }
+      },
+      "worst": {
+        "x": 204,
+        "y": 28,
+        "zone": "limb",
+        "expected": [
+          112,
+          111,
+          106
+        ],
+        "actual": [
+          113,
+          112,
+          107
+        ]
+      }
+    }
+  ],
+  "threshold": 6,
+  "method": "Frozen explicit Params; await fixed LOD; shared decoded image rasters; 257px analytic orthographic sphere vs legacy 96x64 MSAA mesh; exact pixel centres",
+  "date": "2026-10-20",
+  "errors": [],
+  "pass": true
+}
