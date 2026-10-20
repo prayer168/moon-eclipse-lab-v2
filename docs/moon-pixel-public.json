@@ -1,0 +1,354 @@
+{
+  "network": [
+    {
+      "event": "request",
+      "url": "https://prayer168.github.io/moon-eclipse-lab-v2/maps/moon-albedo-low.jpg",
+      "ms": 1676
+    },
+    {
+      "event": "request",
+      "url": "https://prayer168.github.io/moon-eclipse-lab-v2/maps/moon-normal-low.png",
+      "ms": 1676
+    },
+    {
+      "event": "finished",
+      "url": "https://prayer168.github.io/moon-eclipse-lab-v2/maps/moon-albedo-low.jpg",
+      "ms": 3976
+    },
+    {
+      "event": "finished",
+      "url": "https://prayer168.github.io/moon-eclipse-lab-v2/maps/moon-normal-low.png",
+      "ms": 5987
+    },
+    {
+      "event": "request",
+      "url": "https://prayer168.github.io/moon-eclipse-lab-v2/maps/moon-albedo.jpg",
+      "ms": 9565
+    },
+    {
+      "event": "request",
+      "url": "https://prayer168.github.io/moon-eclipse-lab-v2/maps/moon-normal.webp",
+      "ms": 9565
+    },
+    {
+      "event": "finished",
+      "url": "https://prayer168.github.io/moon-eclipse-lab-v2/maps/moon-albedo.jpg",
+      "ms": 67034
+    }
+  ],
+  "diagnostics": {
+    "p": {
+      "t": 9789.754652731479,
+      "i": 5.093960082723321,
+      "node": 327.66195526878516,
+      "distance": 393306.3003702545,
+      "lat": 23.5,
+      "lon": 121,
+      "model": "ephemeris"
+    },
+    "clockSource": "selected",
+    "isoTime": "2026-10-21T06:06:41.996Z",
+    "snapshot": {
+      "phase": {
+        "k": 0.7415214087784905,
+        "elong": 2.0726118354930954,
+        "name": "盈凸月"
+      },
+      "lunar": {
+        "type": "無月食",
+        "x": 189186.98240155674,
+        "d": 344816.0837326685,
+        "ru": 5494.988700401434,
+        "rp": 7263.1970110165685
+      },
+      "global": {
+        "type": "無日食",
+        "axis": [
+          0.8881267400376613,
+          0.45959862061361223,
+          -0.000039498625707570955
+        ],
+        "x": -189983.78349376292,
+        "d": 344377.71112593316,
+        "ru": 2621.4861060192093,
+        "rp": 848.0880427798616,
+        "margin": -1
+      },
+      "solar": {
+        "type": "無日食",
+        "rs": 0.004673323771772938,
+        "rm": 0.0044134752971396515,
+        "delta": 2.0843298498457044,
+        "contact": false
+      },
+      "sunAlt": 40.55245639875401,
+      "moonAlt": -2.854389368579816,
+      "moonAz": 103.08066944099899,
+      "sunAz": 230.2874107439833,
+      "localK": 0.7466295108352958
+    },
+    "answers": [
+      {
+        "prediction": "",
+        "explanation": "",
+        "choice": -1,
+        "rubric": [
+          false,
+          false,
+          false
+        ],
+        "evidence": [],
+        "hints": 0,
+        "feedback": ""
+      },
+      {
+        "prediction": "",
+        "explanation": "",
+        "choice": -1,
+        "rubric": [
+          false,
+          false,
+          false
+        ],
+        "evidence": [],
+        "hints": 0,
+        "feedback": ""
+      },
+      {
+        "prediction": "",
+        "explanation": "",
+        "choice": -1,
+        "rubric": [
+          false,
+          false,
+          false
+        ],
+        "evidence": [],
+        "hints": 0,
+        "feedback": ""
+      },
+      {
+        "prediction": "",
+        "explanation": "",
+        "choice": -1,
+        "rubric": [
+          false,
+          false,
+          false
+        ],
+        "evidence": [],
+        "hints": 0,
+        "feedback": ""
+      },
+      {
+        "prediction": "",
+        "explanation": "",
+        "choice": -1,
+        "rubric": [
+          false,
+          false,
+          false
+        ],
+        "evidence": [],
+        "hints": 0,
+        "feedback": ""
+      },
+      {
+        "prediction": "",
+        "explanation": "",
+        "choice": -1,
+        "rubric": [
+          false,
+          false,
+          false
+        ],
+        "evidence": [],
+        "hints": 0,
+        "feedback": ""
+      },
+      {
+        "prediction": "",
+        "explanation": "",
+        "choice": -1,
+        "rubric": [
+          false,
+          false,
+          false
+        ],
+        "evidence": [],
+        "hints": 0,
+        "feedback": ""
+      },
+      {
+        "prediction": "",
+        "explanation": "",
+        "choice": -1,
+        "rubric": [
+          false,
+          false,
+          false
+        ],
+        "evidence": [],
+        "hints": 0,
+        "feedback": ""
+      }
+    ],
+    "playing": false,
+    "storageOK": true,
+    "webgl": true,
+    "ui": {
+      "mode": "phase",
+      "pane": "scene",
+      "step": 0,
+      "presentation": false
+    },
+    "display": {
+      "frame": "earth",
+      "layout": {
+        "earth": [
+          0,
+          0,
+          0
+        ],
+        "sun": [
+          -137.4945564643474,
+          -71.55590063257046,
+          0.005228202007822698
+        ],
+        "moon": [
+          35.751273471742806,
+          -23.892205188286386,
+          -0.09474380971883907
+        ],
+        "axis": [
+          0.0026201845415805003,
+          0.3978039130286042,
+          0.9174667195119934
+        ],
+        "moonOrbitRadius": 43,
+        "earthRadius": 8,
+        "axisLength": 18,
+        "bodyScale": 1
+      },
+      "axisVisible": true,
+      "orbitVisible": true,
+      "earthOrbitVisible": false,
+      "markerVisible": true,
+      "starsVisible": true,
+      "hudSchematic": true,
+      "earthMoonNear": false,
+      "moonLod": "base",
+      "moonUpgrading": true,
+      "sunspotTime": 9789.754652731479,
+      "sunspots": [
+        {
+          "direction": [
+            -0.8174721606321405,
+            -0.5201255113303,
+            0.24740395925452294
+          ],
+          "strength": 0.23895846581398125,
+          "radius": 0.036725807684178186
+        },
+        {
+          "direction": [
+            -0.7710042933252136,
+            -0.5760335413010608,
+            0.27154693695611287
+          ],
+          "strength": 0.23895846581398125,
+          "radius": 0.025374194399977654
+        },
+        {
+          "direction": [
+            0.8471395995748193,
+            -0.44161329949069,
+            -0.29552020666133955
+          ],
+          "strength": 0.9998349802941231,
+          "radius": 0.05499705015105663
+        },
+        {
+          "direction": [
+            0.884361826861238,
+            -0.37969253379597373,
+            -0.2715469369561128
+          ],
+          "strength": 0.9998349802941231,
+          "radius": 0.037997961922548215
+        },
+        {
+          "direction": [
+            -0.041705825652340524,
+            0.968014413659137,
+            0.24740395925452294
+          ],
+          "strength": 0.2612065538918439,
+          "radius": 0.037521242466876596
+        },
+        {
+          "direction": [
+            -0.11335753353602362,
+            0.9557260750970343,
+            0.27154693695611287
+          ],
+          "strength": 0.2612065538918439,
+          "radius": 0.025923767522569283
+        }
+      ],
+      "moonAssetsReady": true,
+      "moonReading": false,
+      "nearMoon": true,
+      "moonQuaternion": [
+        0.004270672116720756,
+        0.012872139772046228,
+        0.9694120479924286,
+        0.2450639724326809
+      ],
+      "moonSubEarth": [
+        0.9955964225152365,
+        -0.09370194230200087,
+        0.0027765957026462842
+      ],
+      "moonLandmarks": [],
+      "mapLoaded": true,
+      "mapReading": false,
+      "earthQuaternion": [
+        -0.09885441086669632,
+        0.17746674532486834,
+        0.8522374066263445,
+        0.4821045140867274
+      ],
+      "geography": [],
+      "eclipticVisible": false,
+      "solarTime": 5.2093179999992545,
+      "solarParticlesVisible": true,
+      "shadowWireframes": 0
+    },
+    "renderScale": 0.6000000000000001,
+    "drawCalls": 4,
+    "frames": 600,
+    "fps": 60.00300015000751
+  },
+  "detailTimeoutMs": 90000,
+  "date": "2026-10-20",
+  "url": "https://prayer168.github.io/moon-eclipse-lab-v2/?v=bea674d-recheck",
+  "browser": "141.0.7390.37",
+  "checks": [
+    {
+      "name": "正式建置包含本版腳本、基本月面可用",
+      "pass": true
+    },
+    {
+      "name": "地月近看、無框月相、播放暫停及鏡頭可操作",
+      "pass": true
+    },
+    {
+      "name": "4K主場景月面與觀測窗可用",
+      "pass": false,
+      "error": "TimeoutError: page.waitForFunction: Timeout 90000ms exceeded."
+    }
+  ],
+  "errors": [],
+  "pass": false
+}

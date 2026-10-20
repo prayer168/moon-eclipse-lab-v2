@@ -6,6 +6,6 @@
 
 實測：53/53單元測試、7/7黑子及地月近看瀏覽器測試、17/17日期操作、635個版面狀態檢查通過。月面回歸8/8通過；GPU與CPU像素比對已修正，詳細見moon-pixel-fix-report.md。TypeScript與正式建置成功；Three.js區塊超過500KB警告仍存在。本版未重新量測FPS，不宣稱達到效能目標。瀏覽器測試為Windows headless Chromium的模擬視窗，非實體平板測試。
 
-保留完整測試JSON與截圖。月面像素問題已修正並完成本機驗證；發布驗證結果另存moon-pixel-public.json。
+保留完整測試JSON與截圖。月面像素問題已修正並完成本機驗證；GitHub已推送並部署。公開基本月面與操作通過，線上4K資產下載45秒及90秒均未完成，未列通過；詳見moon-pixel-public.json及moon-pixel-fix-report.md。
 
 同步包含原始碼、套件鎖定檔、public素材、dist建置、測試、文件；不含.git、node_modules與快取。保留目的地其他檔案，不鏡像刪除。Google Drive伺服器端上傳進度由桌面同步程式管理。

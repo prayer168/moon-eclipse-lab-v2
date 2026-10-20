@@ -21,7 +21,7 @@
 |型別檢查與正式建置|通過；Three.js區塊超過500KB警告仍存在|
 |1440×900、1024×768、390×844、320×568、844×390|本次瀏覽器回歸無捲軸，HUD及近看保留|
 
-未放寬容差，未用圖片模糊掩蓋差異。瀏覽器回歸無pageerror或著色器錯誤。另保留前一輪635個版面狀態檢查資料，該版面檢查未在本次shader修正後重跑；本次五尺寸操作已重跑。
+分區累計：亮面11164、暗面17052、明暗交界1064、邊緣3200個像素；各區最大差異分別1、1、0、1/255。未放寬容差，未用圖片模糊掩蓋差異。瀏覽器回歸無pageerror或著色器錯誤。另保留前一輪635個版面狀態檢查資料，該版面檢查未在本次shader修正後重跑；本次五尺寸操作已重跑。
 
 ## 重現
 先npm ci與npm run dev，再依序執行：
@@ -36,3 +36,11 @@ npm run build
 
 ## 限制與交付
 逐像素一致不代表月面模型是測繪或光譜級精確：仍忽略坑緣自遮蔽、採球形輪廓、NASA合成資料、教學近似月食紅化。解析窗以像素中心切割圓盤，不用MSAA，輪廓可能有一像素階梯。本次未重測FPS，也未實測實體手機或平板。上線檢查結果另存moon-pixel-public.json。同步到指定Google Drive本機資料夾，伺服器端同步狀態不由本工具確認。
+
+
+## GitHub Pages實測與剩餘限制
+程式提交bea674d14990add623cde472095d2431c4cb3155，GitHub Actions 39382927732建置及部署成功。公開網址以版本參數檢查：新版bundle吻合、基本月面可用、地月近看／示意月相／播放暫停／鏡頭操作及無捲軸均通過，無pageerror。
+
+線上4K載入未列通過：首次等候45秒未完成，附下載紀錄再複查90秒仍未完成。基本月面2.3及4.3秒完成；4K色圖約57.5秒完成；8.9MB法線WebP在90秒觀察期間未回報requestfinished，也沒有requestfailed。介面仍為base、moonUpgrading=true且可操作，截圖moon-pixel-public-fallback.png。這是本次觀測到的資產載入限制，不能由此推論所有使用者均失敗，也不能宣稱公開4K已通過。公開檔案HEAD回傳200及正確長度；未再繼續下載重試。
+
+依build-interactive-science-lesson/SKILL.md："Stop and report partial completion if validation, push, Pages setup, or online verification fails after one focused retry." 本次停止線上4K重試，保留實際結果；像素修正本機40組與其餘回歸結果不受影響。後續若改善線上大型資產傳輸，應另立修訂並重測，不放寬像素門檻。此次僅補存發布驗收紀錄，不更改已發布的程式。
