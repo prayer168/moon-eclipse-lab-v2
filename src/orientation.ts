@@ -1,6 +1,8 @@
+import {realRotation,realPositions} from './ephemeris';
 import {C,rad,tau,mod,unit,cross,add,mul,positions,sub,type Params,type V} from './model';
 /** Short-term Cassini-style approximation. Spin pole is opposite the orbital pole across ecliptic north. */
-export function moonOrientation(p:Pick<Params,'t'|'node'>){
+export function moonOrientation(p:Pick<Params,'t'|'node'|'model'>){
+ if(p.model==='ephemeris')return realRotation('Moon',p.t);
  const node=p.node*rad,tilt=1.54*rad,spin=mod(tau*p.t/C.month+Math.PI);
  const axis:V=[-Math.sin(node)*Math.sin(tilt),Math.cos(node)*Math.sin(tilt),Math.cos(tilt)];
  const reference:V=[Math.cos(node),Math.sin(node),0],quadrature=cross(axis,reference);
@@ -8,6 +10,7 @@ export function moonOrientation(p:Pick<Params,'t'|'node'>){
  return {axis,x,y,spin};
 }
 export function moonOrbitNormal(p:Params):V{
+ if(p.model==='ephemeris')return realPositions(p.t).normal;
  const node=p.node*rad,i=p.i*rad;
  return [Math.sin(node)*Math.sin(i),-Math.cos(node)*Math.sin(i),Math.cos(i)];
 }

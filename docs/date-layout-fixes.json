@@ -1,0 +1,77 @@
+{
+  "beforeFix": [
+    {
+      "name": "phase-observe",
+      "w": 844,
+      "h": 390,
+      "root": [
+        844,
+        390
+      ],
+      "body": [
+        844,
+        390
+      ],
+      "editors": [],
+      "scrollable": [],
+      "outside": [],
+      "clipped": [
+        {
+          "id": "",
+          "cl": "side-pane active",
+          "scroll": 246,
+          "height": 202
+        }
+      ]
+    },
+    {
+      "name": "solar-observe",
+      "w": 844,
+      "h": 390,
+      "root": [
+        844,
+        390
+      ],
+      "body": [
+        844,
+        390
+      ],
+      "editors": [],
+      "scrollable": [],
+      "outside": [],
+      "clipped": [
+        {
+          "id": "",
+          "cl": "side-pane active",
+          "scroll": 246,
+          "height": 202
+        }
+      ]
+    },
+    {
+      "name": "lunar-observe",
+      "w": 844,
+      "h": 390,
+      "root": [
+        844,
+        390
+      ],
+      "body": [
+        844,
+        390
+      ],
+      "editors": [],
+      "scrollable": [],
+      "outside": [],
+      "clipped": [
+        {
+          "id": "",
+          "cl": "side-pane active",
+          "scroll": 246,
+          "height": 202
+        }
+      ]
+    }
+  ],
+  "resolution": "Hide redundant observation heading in short landscape; compact text while preserving dates, source, horizon status and controls."
+}

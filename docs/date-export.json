@@ -1,0 +1,120 @@
+{
+  "version": 3,
+  "model": "ephemeris",
+  "clockSource": "now",
+  "p": {
+    "t": 9788.691691759259,
+    "i": 5.101324745702404,
+    "node": 327.6510395720403,
+    "distance": 398025.380455798,
+    "lat": 23.5,
+    "lon": 121,
+    "model": "ephemeris"
+  },
+  "answers": [
+    {
+      "prediction": "驗證日期模式後作答仍可保存",
+      "explanation": "",
+      "choice": -1,
+      "rubric": [
+        false,
+        false,
+        false
+      ],
+      "evidence": [],
+      "hints": 0,
+      "feedback": ""
+    },
+    {
+      "prediction": "",
+      "explanation": "",
+      "choice": -1,
+      "rubric": [
+        false,
+        false,
+        false
+      ],
+      "evidence": [],
+      "hints": 0,
+      "feedback": ""
+    },
+    {
+      "prediction": "",
+      "explanation": "",
+      "choice": -1,
+      "rubric": [
+        false,
+        false,
+        false
+      ],
+      "evidence": [],
+      "hints": 0,
+      "feedback": ""
+    },
+    {
+      "prediction": "",
+      "explanation": "",
+      "choice": -1,
+      "rubric": [
+        false,
+        false,
+        false
+      ],
+      "evidence": [],
+      "hints": 0,
+      "feedback": ""
+    },
+    {
+      "prediction": "",
+      "explanation": "",
+      "choice": -1,
+      "rubric": [
+        false,
+        false,
+        false
+      ],
+      "evidence": [],
+      "hints": 0,
+      "feedback": ""
+    },
+    {
+      "prediction": "",
+      "explanation": "",
+      "choice": -1,
+      "rubric": [
+        false,
+        false,
+        false
+      ],
+      "evidence": [],
+      "hints": 0,
+      "feedback": ""
+    },
+    {
+      "prediction": "",
+      "explanation": "",
+      "choice": -1,
+      "rubric": [
+        false,
+        false,
+        false
+      ],
+      "evidence": [],
+      "hints": 0,
+      "feedback": ""
+    },
+    {
+      "prediction": "",
+      "explanation": "",
+      "choice": -1,
+      "rubric": [
+        false,
+        false,
+        false
+      ],
+      "evidence": [],
+      "hints": 0,
+      "feedback": ""
+    }
+  ]
+}

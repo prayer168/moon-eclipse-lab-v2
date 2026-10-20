@@ -1,0 +1,141 @@
+{
+  "date": "2026-10-20",
+  "browserVersion": "141.0.7390.37",
+  "durationSeconds": 19.006,
+  "tool": "Playwright 1.56.1 / Chromium headless",
+  "device": "Windows desktop; browser emulated viewports and touch; not a physical tablet",
+  "checks": [
+    {
+      "name": "初次開啟跟隨裝置時間，農曆在西元上方",
+      "pass": true,
+      "details": {
+        "iso": "2026-10-20T04:35:50.453Z"
+      }
+    },
+    {
+      "name": "即時時鐘會推進",
+      "pass": true,
+      "details": {
+        "before": "2026-10-20T04:35:50.453Z",
+        "after": "2026-10-20T04:35:51.374Z"
+      }
+    },
+    {
+      "name": "選日期預設20:00，星曆新月與參數鎖定",
+      "pass": true,
+      "details": {
+        "k": 0.0010563453303919501
+      }
+    },
+    {
+      "name": "指定時間保持凍結，前後一天保持時分",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "指定日期重新載入仍保持指定時間",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "閏六月切換、大小月、跨年及1901/2100日期",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "非法與超出範圍日期顯示錯誤，不改變時刻",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "回到現在及拖曳／加速來源標示",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "當地夜空：地平線下提示，放大模式仍能看月相",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "月相日期與3D同步、自由拖曳不改地球月相",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "長按0.9秒返回；雙指縮放不誤退",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "探究模式可調傾角、作答及模式切換保存",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "JSON及CSV下載含模型與日期來源",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "原生全螢幕進出",
+      "pass": true,
+      "details": {
+        "native": true
+      }
+    },
+    {
+      "name": "五尺寸RWD／日期面板／觀測／透明全螢幕",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "臺灣午夜與農曆春節自動跨日",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "儲存被拒與WebGL失效仍可日期查詢",
+      "pass": true,
+      "details": null
+    }
+  ],
+  "sizes": [
+    {
+      "width": 1440,
+      "height": 900,
+      "overflow": false,
+      "hudFits": true,
+      "transparent": true
+    },
+    {
+      "width": 1024,
+      "height": 768,
+      "overflow": false,
+      "hudFits": true,
+      "transparent": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "hudFits": true,
+      "transparent": true
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "overflow": false,
+      "hudFits": true,
+      "transparent": true
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "overflow": false,
+      "hudFits": true,
+      "transparent": true
+    }
+  ],
+  "errors": []
+}

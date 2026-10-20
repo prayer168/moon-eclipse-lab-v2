@@ -1,3 +1,4 @@
+import {realRotation,realOrbitPath,dateFromDays} from './ephemeris';
 import * as T from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {earthOrbit,positions,observer,sub,unit,dot,cross,mul,add,C,rad,type V,type Params,lunar} from './model';
@@ -5,7 +6,7 @@ import {moonOrientation,moonOrbitNormal,geocentricMoonView} from './orientation'
 import {displayLayout,type ReferenceFrame} from './display-layout';
 const vec=(v:V)=>new T.Vector3(...v);
 export class SpaceScene {
- presentation=false; ecliptic!:T.Mesh; moonPlane!:T.Mesh; moonAxis=new T.Group(); apsides=new T.Group(); inclination=5.145; stars:T.Points; renderer:T.WebGLRenderer; scene=new T.Scene(); camera=new T.PerspectiveCamera(42,1,.1,3000); controls:OrbitControls;
+ realMode=false;pathKey='';apsisPoints:V[]=[[-105*(1-C.eccentricity),0,0],[105*(1+C.eccentricity),0,0]];moonTiltAngle=1.54;presentation=false; ecliptic!:T.Mesh; moonPlane!:T.Mesh; moonAxis=new T.Group(); apsides=new T.Group(); inclination=5.145; stars:T.Points; renderer:T.WebGLRenderer; scene=new T.Scene(); camera=new T.PerspectiveCamera(42,1,.1,3000); controls:OrbitControls;
  earth:T.Mesh; moon:T.Mesh; sun:T.Mesh; orbit:T.Line; node:T.Line; earthOrbit:T.Line; axisGroup=new T.Group(); marker:T.Mesh; frame:ReferenceFrame='sun'; layout=displayLayout({t:0,i:5.145,node:0,distance:384400,lat:23.5,lon:121},'sun'); tags:Record<string,HTMLSpanElement>={}; enabled=true; quality=.8; lastRender=performance.now(); slowFrames=0; renderedFrames=0; light=new T.DirectionalLight(0xffe4ad,3);
  constructor(private host:HTMLElement){
  this.renderer=new T.WebGLRenderer({antialias:true});this.renderer.setPixelRatio(Math.min(devicePixelRatio,1.5)*this.quality);this.renderer.setClearColor('#080f22');host.append(this.renderer.domElement);
@@ -39,7 +40,7 @@ export class SpaceScene {
  const pole=new T.Mesh(new T.CylinderGeometry(.18,.18,2,10),axisMaterial);pole.name='axis';pole.quaternion.setFromUnitVectors(new T.Vector3(0,1,0),vec(this.layout.axis));this.axisGroup.add(pole);
  for(const sign of [-1,1]){const tip=new T.Mesh(new T.SphereGeometry(.4,10,10),axisMaterial);tip.name=sign>0?'north':'south';this.axisGroup.add(tip);}
  const normal=new T.Line(new T.BufferGeometry().setFromPoints([new T.Vector3(0,0,0),new T.Vector3(0,0,1)]),new T.LineDashedMaterial({color:0x9ca9bc,dashSize:.08,gapSize:.06}));normal.name='normal';normal.computeLineDistances();this.axisGroup.add(normal);
- const arc=new T.Line(new T.BufferGeometry().setFromPoints(Array.from({length:25},(_,j)=>{const a=j/24*23.44*rad;return new T.Vector3(0,-Math.sin(a)*10,Math.cos(a)*10);})),new T.LineBasicMaterial({color:0xffce7c}));this.axisGroup.add(arc);
+ const arc=new T.Line(new T.BufferGeometry().setFromPoints(Array.from({length:25},(_,j)=>{const a=j/24*23.44*rad;return new T.Vector3(0,-Math.sin(a)*10,Math.cos(a)*10);})),new T.LineBasicMaterial({color:0xffce7c}));arc.name='tiltArc';this.axisGroup.add(arc);
  for(const [key,text] of Object.entries({perihelion:'近日點 1.471億 km',aphelion:'遠日點 1.521億 km',sun:'太陽',earth:'地球',moon:'月球',north:'北',south:'南',tilt:'地軸 23.44°',moonTilt:'月軸 1.54°',lunarPlane:'月球軌道面 5.145°',ecliptic:'黃道面'})){const tag=document.createElement('span');tag.className='space-tag '+key;tag.textContent=text;host.append(tag);this.tags[key]=tag;}
  this.marker=new T.Mesh(new T.SphereGeometry(.8,12,12),new T.MeshBasicMaterial({color:0xffee9a}));this.scene.add(this.marker);
  const stars=[];for(let j=0;j<500;j++){const a=j*2.39996,z=1-2*(j+.5)/500,r=Math.sqrt(1-z*z);stars.push(r*Math.cos(a)*700,r*Math.sin(a)*700,z*700);}
@@ -66,11 +67,11 @@ export class SpaceScene {
  updateTags(){
 
  const l=this.layout,n=add(l.earth,mul(l.axis,l.axisLength+1)),south=add(l.earth,mul(l.axis,-l.axisLength-1));
- const points:Record<string,V>={moonTilt:add(l.moon,[0,0,9]),lunarPlane:add(l.earth,[0,l.moonOrbitRadius+3,1]),ecliptic:[0,110,0],perihelion:[-105*(1-C.eccentricity),0,-18],aphelion:[105*(1+C.eccentricity),0,-18],sun:add(l.sun,[0,0,this.frame==='sun'?15:20]),earth:add(l.earth,[0,0,-l.earthRadius-4]),moon:add(l.moon,[0,0,5]),north:n,south,tilt:add(l.earth,[7,0,l.axisLength+5])};
+ const points:Record<string,V>={moonTilt:add(l.moon,[0,0,9]),lunarPlane:add(l.earth,[0,l.moonOrbitRadius+3,1]),ecliptic:[0,110,0],perihelion:add(this.apsisPoints[0],[0,0,-18]),aphelion:add(this.apsisPoints[1],[0,0,-18]),sun:add(l.sun,[0,0,this.frame==='sun'?15:20]),earth:add(l.earth,[0,0,-l.earthRadius-4]),moon:add(l.moon,[0,0,5]),north:n,south,tilt:add(l.earth,[7,0,l.axisLength+5])};
  const compact=this.presentation&&this.host.clientWidth<600;
  for(const [key,v] of Object.entries(points)){
   const q=vec(v).project(this.camera),tag=this.tags[key];
-  const text=key==='lunarPlane'?`月球軌道面 ${this.inclination.toFixed(3)}°`:key==='perihelion'?(compact?'近日點':'近日點 1.471億 km'):key==='aphelion'?(compact?'遠日點':'遠日點 1.521億 km'):key==='tilt'?(compact?'地球軸 23.44°':'地軸 23.44°'):key==='moonTilt'?(compact?'月球軸 1.54°':'月軸 1.54°'):null;
+  const text=key==='lunarPlane'?`月球軌道面 ${this.inclination.toFixed(3)}°`:key==='perihelion'?(compact?'近日點':this.realMode?'近日點（星曆）':'近日點 1.471億 km'):key==='aphelion'?(compact?'遠日點':this.realMode?'遠日點（星曆）':'遠日點 1.521億 km'):key==='tilt'?`${compact?'地球軸':'地軸'} ${(Math.acos(l.axis[2])/rad).toFixed(2)}°`:key==='moonTilt'?`${compact?'月球軸':'月軸'} ${this.moonTiltAngle.toFixed(2)}°`:null;
   if(text&&tag.textContent!==text)tag.textContent=text;
   const show=(!['moonTilt','lunarPlane','ecliptic'].includes(key)||this.presentation)&&q.z<1&&q.z>-1&&Math.abs(q.x)<1.05&&Math.abs(q.y)<1.05&&(!['perihelion','aphelion'].includes(key)||this.frame==='sun')&&(this.frame==='earth'||!['north','south'].includes(key))&&(!compact||!['earth','moon'].includes(key));
   tag.style.display=show?'':'none';
@@ -82,35 +83,47 @@ export class SpaceScene {
  }
  update(p:Params,layers:boolean){
  const pos=positions(p),sd=unit(sub(pos.sun,pos.earth));
+ this.realMode=p.model==='ephemeris';const pathKey=this.realMode?'real'+dateFromDays(p.t).getUTCFullYear():'teaching';
+ if(this.pathKey!==pathKey){
+  this.pathKey=pathKey;
+  const path=this.realMode?realOrbitPath(p.t):null;
+  const points=path?path.points.map(x=>vec(mul(x,105/C.au))):Array.from({length:181},(_,j)=>vec(mul(earthOrbit(j*C.year/180).earth,105/C.au)));
+  this.earthOrbit.geometry.dispose();this.earthOrbit.geometry=new T.BufferGeometry().setFromPoints(points);
+  this.apsisPoints=path?path.apsides.map(x=>mul(x,105/C.au)):[[-105*(1-C.eccentricity),0,0],[105*(1+C.eccentricity),0,0]];
+  this.apsides.children.forEach((x,j)=>x.position.copy(vec(this.apsisPoints[j])));
+ }
  const l=displayLayout(p,this.frame);this.layout=l;this.inclination=p.i;
- const moonRotation=moonOrientation(p),normal=moonOrbitNormal(p);
+ const moonRotation=moonOrientation(p),normal=moonOrbitNormal(p);this.moonTiltAngle=Math.acos(moonRotation.axis[2])/rad;
  this.moonAxis.position.copy(vec(l.moon));this.moonAxis.children[0].quaternion.setFromUnitVectors(new T.Vector3(0,1,0),vec(moonRotation.axis));
  this.moonPlane.position.copy(vec(l.earth));this.moonPlane.scale.setScalar(l.moonOrbitRadius/17);this.moonPlane.quaternion.setFromUnitVectors(new T.Vector3(0,0,1),vec(normal));
  this.earth.position.copy(vec(l.earth));this.sun.position.copy(vec(l.sun));this.light.position.copy(vec(l.sun));
  this.earth.scale.setScalar(l.bodyScale);this.moon.scale.setScalar(l.bodyScale);this.sun.scale.setScalar(this.frame==='sun'?.75:1);
  this.earthOrbit.visible=this.frame==='sun'&&(layers||this.presentation);
  this.axisGroup.position.copy(vec(l.earth));
+ this.axisGroup.getObjectByName('axis')!.quaternion.setFromUnitVectors(new T.Vector3(0,1,0),vec(l.axis));
  this.axisGroup.getObjectByName('axis')!.scale.set(1,l.axisLength,1);
  this.axisGroup.getObjectByName('north')!.position.copy(vec(mul(l.axis,l.axisLength)));
  this.axisGroup.getObjectByName('south')!.position.copy(vec(mul(l.axis,-l.axisLength)));
  this.axisGroup.getObjectByName('normal')!.scale.setScalar(l.axisLength);
+ const tiltArc=this.axisGroup.getObjectByName('tiltArc') as T.Line,tiltAngle=Math.acos(l.axis[2]),horizontal=unit([l.axis[0],l.axis[1],0]);
+ tiltArc.geometry.dispose();tiltArc.geometry=new T.BufferGeometry().setFromPoints(Array.from({length:25},(_,j)=>{const a=j/24*tiltAngle;return new T.Vector3(horizontal[0]*Math.sin(a)*10,horizontal[1]*Math.sin(a)*10,Math.cos(a)*10);}));
  const earthMaterial=this.earth.material as T.ShaderMaterial;earthMaterial.uniforms.sunRelative.value.copy(vec(sub(pos.sun,pos.earth)));earthMaterial.uniforms.moonRelative.value.copy(vec(pos.relative));
  this.moon.position.copy(vec(l.moon));this.moon.quaternion.setFromRotationMatrix(new T.Matrix4().makeBasis(vec(moonRotation.x),vec(moonRotation.y),vec(moonRotation.axis)));
  const material=this.moon.material as T.ShaderMaterial;material.uniforms.sunDistance.value=Math.hypot(...pos.earth);material.uniforms.sunDirection.value.copy(vec(unit(sub(pos.sun,pos.moon))));material.uniforms.relative.value.copy(vec(pos.relative));material.uniforms.shadowAxis.value.copy(vec(mul(sd,-1)));
  const pts=[];for(let j=0;j<=180;j++){const a=j*Math.PI/90,n=p.node*rad,i=p.i*rad;pts.push(new T.Vector3(l.moonOrbitRadius*(Math.cos(a)*Math.cos(n)-Math.sin(a)*Math.cos(i)*Math.sin(n)),l.moonOrbitRadius*(Math.cos(a)*Math.sin(n)+Math.sin(a)*Math.cos(i)*Math.cos(n)),l.moonOrbitRadius*Math.sin(a)*Math.sin(i)));}
  this.orbit.visible=(layers||this.presentation);this.orbit.position.copy(vec(l.earth));this.orbit.geometry.dispose();this.orbit.geometry=new T.BufferGeometry().setFromPoints(pts);
  this.node.position.copy(vec(l.earth));const nodeRadius=l.moonOrbitRadius*1.2;this.node.geometry.dispose();this.node.geometry=new T.BufferGeometry().setFromPoints([new T.Vector3(-nodeRadius*Math.cos(p.node*rad),-nodeRadius*Math.sin(p.node*rad),0),new T.Vector3(nodeRadius*Math.cos(p.node*rad),nodeRadius*Math.sin(p.node*rad),0)]);this.node.computeLineDistances();this.node.visible=(layers||this.presentation);
- const o=observer(p);this.marker.position.copy(vec(add(l.earth,mul(o.up,l.earthRadius+.8))));this.earth.rotation.set(23.44*rad,0,(p.t% .9972696)*Math.PI*2/.9972696);
+ const o=observer(p);this.marker.position.copy(vec(add(l.earth,mul(o.up,l.earthRadius+.8))));if(this.realMode){const r=realRotation('Earth',p.t);this.earth.quaternion.setFromRotationMatrix(new T.Matrix4().makeBasis(vec(r.x),vec(r.y),vec(r.axis)));}else this.earth.rotation.set(23.44*rad,0,(p.t% .9972696)*Math.PI*2/.9972696);
  // No trailing rays or shadow-cone wireframes: eclipses remain on the body shaders.
  }
 }
 
-export function drawObservation(canvas:HTMLCanvasElement,p:Params,solar:boolean,sky:boolean,geocentric=false){
+export function drawObservation(canvas:HTMLCanvasElement,p:Params,solar:boolean,sky:boolean,compact=false,geocentric=!sky&&!solar){
  const ctx=canvas.getContext('2d')!;const w=canvas.clientWidth||320,h=canvas.clientHeight||280;canvas.width=w*devicePixelRatio;canvas.height=h*devicePixelRatio;ctx.scale(devicePixelRatio,devicePixelRatio);
- ctx.clearRect(0,0,w,h);if(!geocentric){ctx.fillStyle='#0b1429';ctx.fillRect(0,0,w,h);}
+ ctx.clearRect(0,0,w,h);if(!compact){ctx.fillStyle='#0b1429';ctx.fillRect(0,0,w,h);}
  const pos=positions(p),o=observer(p),target=solar?pos.sun:pos.moon,view=geocentric?geocentricMoonView(p).view:unit(sub(o.point,target));
  let up=sky?o.up:[0,0,1] as V;let right=unit(cross(up,view));up=unit(cross(view,right));
- const light=unit(sub(pos.sun,pos.moon)),r=Math.min(w*.28,h*.32),cx=w/2,cy=h*(geocentric?.5:.43);
+ const light=unit(sub(pos.sun,pos.moon)),contentH=compact?h:Math.max(32,h-(h>=130?48:0)),r=compact?Math.min(w,h)*.42:Math.min(w*.35,contentH*.4),cx=w/2,cy=contentH*.5;
  if(solar){
  const sv=unit(sub(pos.sun,o.point)),mv=unit(sub(pos.moon,o.point));const rs=Math.asin(C.sun/Math.hypot(...sub(pos.sun,o.point))),rm=Math.asin(C.moon/Math.hypot(...sub(pos.moon,o.point)));
  ctx.fillStyle='#ffd17b';ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.fill();
@@ -130,7 +143,7 @@ export function drawObservation(canvas:HTMLCanvasElement,p:Params,solar:boolean,
  // putImageData uses device pixels: draw through a temporary logical-resolution canvas.
  const tmp=document.createElement('canvas');tmp.width=size;tmp.height=size;tmp.getContext('2d')!.putImageData(image,0,0);ctx.drawImage(tmp,cx-r,cy-r);
  }
- if(geocentric)return;
+ if(compact||h<130)return;
  ctx.fillStyle='#a9bdd6';ctx.font='12px system-ui';ctx.textAlign='center';ctx.fillText(sky?'天頂方向 ↑ · 畫面為目標放大視野':'黃道北方 ↑ · 月面放大示意',cx,h-38);ctx.fillText('視大小放大，非裸眼視野',cx,h-18);
  if(sky){ctx.strokeStyle='#82946c';ctx.beginPath();ctx.moveTo(15,h-62);ctx.lineTo(w-15,h-62);ctx.stroke();}
 }

@@ -1,0 +1,117 @@
+{
+  "retrieved": "2026-10-20",
+  "cases": [
+    {
+      "date": "1901-01-01",
+      "source": "https://www.hko.gov.hk/tc/gts/time/calendar/text/files/T1901c.txt",
+      "LunarYear": null,
+      "LunarDate": "十一月十一",
+      "expectedYear": 1900,
+      "expectedMonthDay": "十一月十一"
+    },
+    {
+      "date": "2024-02-09",
+      "source": "https://data.weather.gov.hk/weatherAPI/opendata/lunardate.php?date=2024-02-09",
+      "LunarYear": "癸卯年，兔",
+      "LunarDate": "十二月三十",
+      "expectedYear": 2023,
+      "expectedMonthDay": "十二月三十"
+    },
+    {
+      "date": "2024-02-10",
+      "source": "https://data.weather.gov.hk/weatherAPI/opendata/lunardate.php?date=2024-02-10",
+      "LunarYear": "甲辰年，龍",
+      "LunarDate": "正月初一",
+      "expectedYear": 2024,
+      "expectedMonthDay": "正月初一"
+    },
+    {
+      "date": "2024-02-29",
+      "source": "https://data.weather.gov.hk/weatherAPI/opendata/lunardate.php?date=2024-02-29",
+      "LunarYear": "甲辰年，龍",
+      "LunarDate": "正月二十",
+      "expectedYear": 2024,
+      "expectedMonthDay": "正月二十"
+    },
+    {
+      "date": "2025-07-24",
+      "source": "https://data.weather.gov.hk/weatherAPI/opendata/lunardate.php?date=2025-07-24",
+      "LunarYear": "乙巳年，蛇",
+      "LunarDate": "六月三十",
+      "expectedYear": 2025,
+      "expectedMonthDay": "六月三十"
+    },
+    {
+      "date": "2025-07-25",
+      "source": "https://data.weather.gov.hk/weatherAPI/opendata/lunardate.php?date=2025-07-25",
+      "LunarYear": "乙巳年，蛇",
+      "LunarDate": "閏六月初一",
+      "expectedYear": 2025,
+      "expectedMonthDay": "閏六月初一"
+    },
+    {
+      "date": "2025-08-22",
+      "source": "https://data.weather.gov.hk/weatherAPI/opendata/lunardate.php?date=2025-08-22",
+      "LunarYear": "乙巳年，蛇",
+      "LunarDate": "閏六月廿九",
+      "expectedYear": 2025,
+      "expectedMonthDay": "閏六月廿九"
+    },
+    {
+      "date": "2025-08-23",
+      "source": "https://data.weather.gov.hk/weatherAPI/opendata/lunardate.php?date=2025-08-23",
+      "LunarYear": "乙巳年，蛇",
+      "LunarDate": "七月初一",
+      "expectedYear": 2025,
+      "expectedMonthDay": "七月初一"
+    },
+    {
+      "date": "2026-10-20",
+      "source": "https://data.weather.gov.hk/weatherAPI/opendata/lunardate.php?date=2026-10-20",
+      "LunarYear": "丙午年，馬",
+      "LunarDate": "九月十一",
+      "expectedYear": 2026,
+      "expectedMonthDay": "九月十一"
+    },
+    {
+      "date": "2033-12-22",
+      "source": "https://www.hko.gov.hk/tc/gts/time/calendar/text/files/T2033c.txt",
+      "LunarYear": null,
+      "LunarDate": "閏十一月初一",
+      "expectedYear": 2033,
+      "expectedMonthDay": "閏十一月初一"
+    },
+    {
+      "date": "2057-09-28",
+      "source": "https://www.hko.gov.hk/tc/gts/time/calendar/text/files/T2057c.txt",
+      "LunarYear": null,
+      "LunarDate": "九月初一",
+      "expectedYear": 2057,
+      "expectedMonthDay": "九月初一"
+    },
+    {
+      "date": "2089-09-04",
+      "source": "https://www.hko.gov.hk/tc/gts/time/calendar/text/files/T2089c.txt",
+      "LunarYear": null,
+      "LunarDate": "八月初一",
+      "expectedYear": 2089,
+      "expectedMonthDay": "八月初一"
+    },
+    {
+      "date": "2097-08-07",
+      "source": "https://www.hko.gov.hk/tc/gts/time/calendar/text/files/T2097c.txt",
+      "LunarYear": null,
+      "LunarDate": "七月初一",
+      "expectedYear": 2097,
+      "expectedMonthDay": "七月初一"
+    },
+    {
+      "date": "2100-12-31",
+      "source": "https://www.hko.gov.hk/tc/gts/time/calendar/text/files/T2100c.txt",
+      "LunarYear": null,
+      "LunarDate": "十二月初一",
+      "expectedYear": 2100,
+      "expectedMonthDay": "十二月初一"
+    }
+  ]
+}

@@ -8,9 +8,11 @@
     "build": "tsc --noEmit && vite build",
     "test": "vitest run",
     "test:browser": "node tests/no-scroll-flow.mjs && node tests/no-scroll-audit.mjs && node tests/keyboard.mjs",
-    "preview": "vite preview --host 127.0.0.1"
+    "preview": "vite preview --host 127.0.0.1",
+    "test:date-browser": "node tests/real-date-browser.mjs"
   },
   "dependencies": {
+    "astronomy-engine": "2.1.19",
     "three": "0.180.0"
   },
   "devDependencies": {
